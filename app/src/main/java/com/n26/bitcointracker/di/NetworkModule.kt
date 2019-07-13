@@ -1,21 +1,29 @@
 package com.n26.bitcointracker.di
 
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.n26.bitcointracker.AppConfig
+import com.n26.bitcointracker.rest.RestApi
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-public class NetworkModule {
+class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient = OkHttpClient.Builder().build()
+    fun providesGson(): Gson = GsonBuilder().create()
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(): OkHttpClient = OkHttpClient.Builder().addInterceptor(
+        HttpLoggingInterceptor() ).build()
 
     @Provides
     @Singleton
@@ -23,7 +31,11 @@ public class NetworkModule {
         return Retrofit.Builder().baseUrl(AppConfig.BASE_URL)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
     }
+
+    @Provides
+    @Singleton
+    fun provideRestApi(retrofit: Retrofit) = retrofit.create(RestApi::class.java)
 }

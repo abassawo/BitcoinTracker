@@ -39,5 +39,6 @@ dependencies {
     kapt 'com.google.dagger:dagger-android-processor:2.15'
     kapt 'com.google.dagger:dagger-compiler:2.15'
     api 'com.squareup.retrofit2:converter-gson:2.6.0'
-    api 'com.squareup.retrofit2:adapter-rxjava:2.6.0'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
+    implementation "com.squareup.okhttp3:logging-interceptor:3.8.0"
 }
