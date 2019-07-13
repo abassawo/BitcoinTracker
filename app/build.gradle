@@ -20,6 +20,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
+
 }
 
 dependencies {
@@ -42,4 +46,5 @@ dependencies {
     api 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
     implementation "com.squareup.okhttp3:logging-interceptor:3.8.0"
     implementation 'com.facebook.stetho:stetho:1.5.1'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }
