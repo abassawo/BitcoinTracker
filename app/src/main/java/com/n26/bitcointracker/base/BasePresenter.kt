@@ -2,8 +2,9 @@ package com.n26.bitcointracker.base
 
 import com.n26.bitcointracker.utils.rx.SchedulerTransformer
 import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import javax.inject.Inject
+import io.reactivex.schedulers.Schedulers
 
 abstract class BasePresenter<V : BaseContract.View> : BaseContract.Presenter<V> {
 
@@ -11,12 +12,8 @@ abstract class BasePresenter<V : BaseContract.View> : BaseContract.Presenter<V> 
 
     private var view: V? = null
     private var isViewBound: Boolean = false
-    @Inject lateinit var ioScheduler: Scheduler
-    @Inject lateinit var uiScheduler: Scheduler
-
-    init {
-        //dagger
-    }
+    val ioScheduler: Scheduler = Schedulers.io()
+    val uiScheduler: Scheduler = AndroidSchedulers.mainThread()
 
     override fun bindview(view: V) {
         this.view = view
@@ -37,6 +34,12 @@ abstract class BasePresenter<V : BaseContract.View> : BaseContract.Presenter<V> 
         }
     }
 
+    override fun onViewCreated() {
+    }
+
+    override fun onViewDestroyed() {
+    }
+
     private fun onViewUnbound() {
     }
 
@@ -44,7 +47,6 @@ abstract class BasePresenter<V : BaseContract.View> : BaseContract.Presenter<V> 
     }
 
     protected fun <R> subscribeOnIoObserveOnUi(): SchedulerTransformer<R> {
-        //todo  this can be provided by dagger too
         return SchedulerTransformer(ioScheduler, uiScheduler)
     }
 

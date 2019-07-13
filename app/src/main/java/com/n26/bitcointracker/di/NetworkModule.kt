@@ -1,6 +1,7 @@
-package com.n26.bitcointracker
+package com.n26.bitcointracker.di
 
 import com.google.gson.Gson
+import com.n26.bitcointracker.AppConfig
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -14,7 +15,7 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttopClient(): OkHttpClient = OkHttpClient.Builder().build()
+    fun provideOkHttpClient(): OkHttpClient = OkHttpClient.Builder().build()
 
     @Provides
     @Singleton
