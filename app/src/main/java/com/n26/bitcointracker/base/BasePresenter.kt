@@ -13,7 +13,7 @@ abstract class BasePresenter<V : BaseContract.View> : BaseContract.Presenter<V> 
 
     val disposables: CompositeDisposable = CompositeDisposable()
 
-    private var view: V? = null
+    var view: V? = null
     private var isViewBound: Boolean = false
     val ioScheduler: Scheduler = Schedulers.io()
     val uiScheduler: Scheduler = AndroidSchedulers.mainThread()

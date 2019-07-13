@@ -17,7 +17,7 @@ class MainPresenter @Inject constructor() :
         val disposable = restApi.getChart()
             .compose(subscribeOnIoObserveOnUi())
             .subscribe(
-                { response -> Log.d("MainPresenter", response.toString()) },
+                { response -> response.values?.let { view?.showChartData(it) }},
                 { e -> Log.d(TAG, e.message) })
 
         disposables.add(disposable)
