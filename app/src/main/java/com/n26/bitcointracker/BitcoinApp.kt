@@ -1,6 +1,7 @@
 package com.n26.bitcointracker
 
 import android.app.Application
+import com.facebook.stetho.Stetho
 import com.n26.bitcointracker.di.BaseComponent
 import com.n26.bitcointracker.di.DaggerBaseComponent
 
@@ -12,6 +13,7 @@ class BitcoinApp : Application() {
         instance = this
         baseLibComponent = DaggerBaseComponent.create()
         baseLibComponent?.inject(this)
+        Stetho.initializeWithDefaults(this)
 
     }
 

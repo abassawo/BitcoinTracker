@@ -10,13 +10,11 @@ class MainPresenter @Inject constructor() :
 
     private val TAG: String? = " MainPresenter"
 
-    override
-
-    fun onViewCreated() {
+    override fun onViewBound() {
         super.onViewCreated()
         BitcoinApp.instance.baseLibComponent?.inject(this)
         Log.d("MainPresenter", "on view created")
-        val disposable = restApi.getStats()
+        val disposable = restApi.getChart()
             .compose(subscribeOnIoObserveOnUi())
             .subscribe(
                 { response -> Log.d("MainPresenter", response.toString()) },

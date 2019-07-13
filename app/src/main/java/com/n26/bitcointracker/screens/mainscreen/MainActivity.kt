@@ -16,6 +16,10 @@ class MainActivity : BaseMvpActivity<MainContract.Presenter>(), MainContract.Vie
         return presenter
     }
 
-    override fun getLayoutResource(): Int = R.layout.activity_main
+    override fun onResume() {
+        super.onResume()
+        presenter.bindview(this)
+    }
 
+    override fun getLayoutResource(): Int = R.layout.activity_main
 }

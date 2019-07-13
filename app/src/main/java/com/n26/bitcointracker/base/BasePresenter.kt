@@ -51,7 +51,8 @@ abstract class BasePresenter<V : BaseContract.View> : BaseContract.Presenter<V> 
     private fun onViewUnbound() {
     }
 
-    private fun onViewBound() {
+    open fun onViewBound() {
+
     }
 
     protected fun <R> subscribeOnIoObserveOnUi(): SchedulerTransformer<R> {
