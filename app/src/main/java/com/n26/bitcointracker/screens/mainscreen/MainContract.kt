@@ -9,11 +9,11 @@ interface MainContract {
     interface View : BaseContract.View {
         fun showNoInternetWarning()
 
-        fun showChartPage(range: Range)
+        fun showChartPage(rangeIndex: Int)
     }
 
     interface Presenter : BaseContract.Presenter<View> {
-        fun onRangeSelected(range: Range)
+        fun onRangeSelected(rangeIndex: Int)
         fun onConnectivityChecked(isNetworkAvailable: Boolean)
     }
 }

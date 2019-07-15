@@ -25,7 +25,7 @@ class ChartPresenter @Inject constructor() : BasePresenter<ChartContract.View>()
     private val TAG: String? = "MainPresenter"
 
     override fun onViewBound() {
-        onRangeSelected(Range.ALL.timeSpan)
+        onRangeSelected(getLastRange().timeSpan)
     }
 
     private fun getLastRange() = UserSettingsManager.getLastRange() ?: Range.ALL
