@@ -12,7 +12,6 @@ class BitcoinApp : Application() {
         instance = this
         baseLibComponent = DaggerBaseComponent.create()
         baseLibComponent?.inject(this)
-
     }
 
     companion object {
