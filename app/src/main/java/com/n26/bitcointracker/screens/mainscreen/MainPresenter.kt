@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class MainPresenter @Inject constructor() : BasePresenter<MainContract.View>(),
     MainContract.Presenter {
-    override fun onRangeSelected(range: Range) {
+    override fun onRangeSelected(range: Int) {
         view?.showChartPage(range)
     }
 
@@ -29,7 +29,7 @@ class MainPresenter @Inject constructor() : BasePresenter<MainContract.View>(),
 
     override fun onConnectivityChecked(isNetworkAvailable: Boolean) {
         if (isNetworkAvailable) {
-            onRangeSelected(selectedRange ?: Range.ALL)
+            onRangeSelected(Range.values().size - 1)
         } else {
             view?.showNoInternetWarning()
         }
