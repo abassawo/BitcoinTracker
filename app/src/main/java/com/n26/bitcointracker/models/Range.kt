@@ -6,5 +6,5 @@ enum class Range(val timeSpan: String) {
     `180_DAYS`("180days"),
     `1_YEAR`("1year"),
     `2_YEARS`("2years"),
-    ALL("ALL")
+    ALL("all")
 }
