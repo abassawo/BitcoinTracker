@@ -21,7 +21,6 @@ abstract class BasePresenter<V : BaseContract.View> : BaseContract.Presenter<V> 
     @Inject
     lateinit var restApi: RestApi
 
-
     override fun bindview(view: V) {
         this.view = view
 

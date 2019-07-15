@@ -24,6 +24,7 @@ object ChartUtil {
             set1.notifyDataSetChanged()
             chart.getData().notifyDataChanged()
             chart.notifyDataSetChanged()
+            chart.invalidate()
         } else {
             // create a dataset and give it a type
             set1 = LineDataSet(entries, "DataSet 1")
@@ -76,9 +77,9 @@ object ChartUtil {
             val data = LineData(dataSets)
 
             // set data
-            chart.invalidate()
             chart.setData(data)
-//            chart.notifyDataSetChanged()
+            chart.invalidate()
+            chart.notifyDataSetChanged()
         }
     }
 }
