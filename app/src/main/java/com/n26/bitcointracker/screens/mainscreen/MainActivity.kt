@@ -3,6 +3,7 @@ package com.n26.bitcointracker.screens.mainscreen
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
+import com.google.android.material.snackbar.Snackbar
 import com.n26.bitcointracker.BitcoinApp
 import com.n26.bitcointracker.R
 import com.n26.bitcointracker.base.BaseMvpActivity
@@ -23,12 +24,13 @@ class MainActivity : BaseMvpActivity<MainContract.Presenter>(), MainContract.Vie
     }
 
     override fun showNoInternetWarning() {
-//        Snackbar
+        Snackbar.make(mainContainer, getString(R.string.internet_down_msg), Snackbar.LENGTH_LONG)
+            .show()
     }
 
     override fun showChartPage(range: Range) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.main_container, ChartFragment.newInstance(range)).commit()
+            .replace(R.id.mainContainer, ChartFragment.newInstance(range)).commit()
     }
 
 

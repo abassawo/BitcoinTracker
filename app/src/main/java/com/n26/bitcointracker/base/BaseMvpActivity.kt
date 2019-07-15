@@ -3,10 +3,6 @@ package com.n26.bitcointracker.base
 import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
-import android.content.Intent
-
-
-
 
 abstract class BaseMvpActivity<P : BaseContract.Presenter<*>> : AppCompatActivity(),
     BaseContract.View {
