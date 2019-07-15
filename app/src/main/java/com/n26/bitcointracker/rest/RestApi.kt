@@ -13,5 +13,5 @@ public interface RestApi {
     fun getStats(): Single<ModelResponse>
 
     @GET("https://api.blockchain.info/charts/market-price")
-    fun getChart(@Query("timeSpan") timeSpan: String): Single<ChartResponse>
+    fun getChart(@Query("timespan") timeSpan: String): Single<ChartResponse>
 }
