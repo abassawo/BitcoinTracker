@@ -9,7 +9,7 @@ interface BaseContract {
     interface Presenter<V : View> {
         fun bindview(view: V)
         fun unbindView()
-        fun onViewCreated()
         fun onViewDestroyed()
+
     }
 }
