@@ -79,6 +79,7 @@ object ChartUtil {
             // set data
             chart.setData(data)
             chart.invalidate()
+            chart.notifyDataSetChanged()
         }
     }
 }

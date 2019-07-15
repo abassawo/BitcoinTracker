@@ -7,11 +7,13 @@ import com.n26.bitcointracker.models.Value
 interface MainContract {
 
     interface View : BaseContract.View {
-        fun showChartData(values: List<Value>, range: Range)
-        fun clearChart()
+        fun showNoInternetWarning()
+
+        fun showChartPage(range: Range)
     }
 
     interface Presenter : BaseContract.Presenter<View> {
         fun onRangeSelected(range: Range)
+        fun onConnectivityChecked(isNetworkAvailable: Boolean)
     }
 }
