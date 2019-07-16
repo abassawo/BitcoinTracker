@@ -2,4 +2,12 @@
     <string name="app_name">Bitcoin Tracker</string>
     <string name="dash">-</string>
     <string name="internet_down_msg">Looks like internet access is not currently available</string>
+
+    <!--time range labels-->
+    <string name="thirty_days">30d</string>
+    <string name="sixty_days">60d</string>
+    <string name="oneEighty_days">180d</string>
+    <string name="one_year">1y</string>
+    <string name="two_years">2y</string>
+    <string name="all">All</string>
 </resources>

@@ -16,7 +16,6 @@ abstract class BaseMvpFragment<P : BaseContract.Presenter<*>> : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter = getPresenter()
     }
 
     override fun onCreateView(
@@ -28,12 +27,13 @@ abstract class BaseMvpFragment<P : BaseContract.Presenter<*>> : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onViewCreated(savedInstanceState);
+        presenter = getPresenter()
     }
 
     /**
      * Override this method to do any additional view initialization (ex: setup RecyclerView adapter)
      */
-    protected fun onViewCreated(@Nullable savedInstanceState: Bundle?) {
+    open fun onViewCreated(@Nullable savedInstanceState: Bundle?) {
 
     }
 

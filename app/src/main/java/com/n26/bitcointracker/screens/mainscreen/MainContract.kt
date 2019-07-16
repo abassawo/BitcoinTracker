@@ -13,7 +13,6 @@ interface MainContract {
     }
 
     interface Presenter : BaseContract.Presenter<View> {
-        fun onRangeSelected(rangeIndex: Int)
         fun onConnectivityChecked(isNetworkAvailable: Boolean)
     }
 }

@@ -12,8 +12,8 @@ abstract class BaseMvpActivity<P : BaseContract.Presenter<*>> : AppCompatActivit
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getLayoutResource())
-        presenter = getPresenter()
         onViewCreated(savedInstanceState)
+        presenter = getPresenter()
     }
 
     /**

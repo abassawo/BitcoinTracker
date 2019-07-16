@@ -20,14 +20,17 @@ class ChartFragment : BaseMvpFragment<ChartContract.Presenter>(), ChartContract.
 
     override fun getLayoutResourceId(): Int = R.layout.fragment_chart
 
-    override fun getPresenter(): ChartContract.Presenter {
+    override fun getPresenter(): ChartContract.Presenter = presenter
+
+    override fun onViewCreated(savedInstanceState: Bundle?) {
+        super.onViewCreated(savedInstanceState)
         BitcoinApp.instance.baseLibComponent?.inject(this)
-        return presenter
+        setupChart(chart)
+        updateUI()
+        swipeRefresh.setOnRefreshListener { updateUI() }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupChart(chart)
+    private fun updateUI() {
         val range = arguments?.getString(ARG_RANGE_KEY) ?: Range.ALL.timeSpan
         presenter.bindview(this)
         presenter.onRangeSelected(range)
@@ -45,9 +48,10 @@ class ChartFragment : BaseMvpFragment<ChartContract.Presenter>(), ChartContract.
             entries.add(entry)
         }
         ChartUtil.loadChart(entries, chart)
+        swipeRefresh.isRefreshing = false
     }
 
-    override fun clearChart() = chart.clear()
+//    override fun clearChart() = chart.clear()
 
     companion object {
         private val ARG_RANGE_KEY = "argRange"
