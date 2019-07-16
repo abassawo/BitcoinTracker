@@ -2,6 +2,7 @@ package com.n26.bitcointracker.di
 
 import com.n26.bitcointracker.BitcoinApp
 import com.n26.bitcointracker.base.BaseMvpActivity
+import com.n26.bitcointracker.rest.AppRepository
 import com.n26.bitcointracker.screens.chart.ChartFragment
 import com.n26.bitcointracker.screens.chart.ChartPresenter
 import com.n26.bitcointracker.screens.mainscreen.MainActivity
@@ -17,4 +18,6 @@ interface  BaseComponent {
     fun inject(chartFragment: ChartFragment) {
 
     }
+
+    fun inject(appRepository: AppRepository)
 }
