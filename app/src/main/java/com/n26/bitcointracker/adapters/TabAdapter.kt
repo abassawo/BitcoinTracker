@@ -1,18 +1,19 @@
 package com.n26.bitcointracker.adapters
 
+import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.n26.bitcointracker.models.Range
 import com.n26.bitcointracker.screens.chart.ChartFragment
 
-class TabAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager) {
+class TabAdapter(context: Context, fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager) {
     private val fragments = mutableListOf<Fragment>()
     private val titles = mutableListOf<String>()
 
     init {
         for (value in Range.values()) {
-            addFragment(ChartFragment.newInstance(value), value.timeSpan.capitalize())
+            addFragment(ChartFragment.newInstance(value),context.getString(value.friendlyName))
         }
         notifyDataSetChanged()
     }
@@ -25,5 +26,9 @@ class TabAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapter(f
     override fun getItem(position: Int) = fragments[position]
 
     override fun getCount() = fragments.size
+
+    override fun getPageTitle(position: Int): CharSequence? {
+        return titles[position]
+    }
 
 }

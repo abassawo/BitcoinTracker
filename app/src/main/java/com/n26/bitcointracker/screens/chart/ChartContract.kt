@@ -8,7 +8,6 @@ interface ChartContract {
 
     interface View : BaseContract.View {
         fun showChartData(values: List<Value>)
-        fun clearChart()
     }
 
     interface Presenter : BaseContract.Presenter<View> {

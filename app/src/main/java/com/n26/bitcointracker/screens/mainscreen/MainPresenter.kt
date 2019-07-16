@@ -9,15 +9,12 @@ import javax.inject.Inject
 
 class MainPresenter @Inject constructor() : BasePresenter<MainContract.View>(),
     MainContract.Presenter {
-    override fun onRangeSelected(range: Int) {
-        view?.showChartPage(range)
-    }
 
-    private var selectedRange: Range? = null
+    private var lastSelectedRange: Range? = null
 
     init {
-        if (selectedRange == null) {
-            selectedRange = UserSettingsManager.getLastRange() ?: Range.ALL
+        if (lastSelectedRange == null) {
+            lastSelectedRange = UserSettingsManager.getLastRange() ?: Range.ALL
         }
     }
 
@@ -29,7 +26,7 @@ class MainPresenter @Inject constructor() : BasePresenter<MainContract.View>(),
 
     override fun onConnectivityChecked(isNetworkAvailable: Boolean) {
         if (isNetworkAvailable) {
-            onRangeSelected(Range.values().size - 1)
+            view?.showChartPage(Range.values().indexOf(lastSelectedRange))
         } else {
             view?.showNoInternetWarning()
         }

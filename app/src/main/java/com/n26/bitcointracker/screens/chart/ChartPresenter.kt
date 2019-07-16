@@ -10,7 +10,6 @@ class ChartPresenter @Inject constructor() : BasePresenter<ChartContract.View>()
     ChartContract.Presenter {
 
     override fun onRangeSelected(range: String) {
-        view?.clearChart()
         disposables.clear()
 
         val disposable = restApi.getChart(range)
