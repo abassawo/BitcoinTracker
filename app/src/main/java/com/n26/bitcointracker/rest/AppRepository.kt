@@ -1,7 +1,9 @@
 package com.n26.bitcointracker.rest
 
 import com.n26.bitcointracker.di.SchedulerProvider
+import com.n26.bitcointracker.models.ChartResponse
 import com.n26.bitcointracker.utils.rx.SchedulerTransformer
+import io.reactivex.Single
 import javax.inject.Inject
 
 class AppRepository @Inject constructor(
@@ -9,9 +11,9 @@ class AppRepository @Inject constructor(
     private val restApi: RestApi
 ) {
 
-    protected fun <R> subscribeOnIoObserveOnUi(): SchedulerTransformer<R> {
+    private fun <R> subscribeOnIoObserveOnUi(): SchedulerTransformer<R> {
         return SchedulerTransformer(schedulerProvider.ioScheduler(), schedulerProvider.uiScheduler())
     }
 
-    fun getChart(range: String) = restApi.getChart(range).compose(subscribeOnIoObserveOnUi())
+    fun getChart(range: String): Single<ChartResponse> = restApi.getChart(range).compose(subscribeOnIoObserveOnUi())
 }

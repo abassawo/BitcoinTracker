@@ -33,7 +33,7 @@ class ChartFragment : BaseMvpFragment<ChartContract.Presenter>(), ChartContract.
     }
 
     private fun updateUI() {
-        presenter.bindview(this)
+        presenter.bindView(this)
         getRangeIndex().let {
             presenter.onTimeSpanSelected(Range.values()[it])
         }
@@ -70,7 +70,7 @@ class ChartFragment : BaseMvpFragment<ChartContract.Presenter>(), ChartContract.
 
 
     companion object {
-        private val ARG_RANGE_KEY = "argRange"
+        private const val ARG_RANGE_KEY = "argRange"
 
         fun newInstance(range: Range): ChartFragment {
             val args = Bundle()
