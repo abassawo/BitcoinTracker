@@ -13,16 +13,16 @@ import com.github.mikephil.charting.utils.Utils
 import com.n26.bitcointracker.R
 import java.util.*
 
-object ChartUtil {
+object ChartRenderUtil {
 
     fun loadChart(entries: List<Entry>, chart: LineChart) {
         val set1: LineDataSet
 
-        if (chart.getData() != null && chart.getData().getDataSetCount() > 0) run {
-            set1 = chart.getData().getDataSetByIndex(0) as LineDataSet
+        if (chart.data != null && chart.data.dataSetCount > 0) run {
+            set1 = chart.data.getDataSetByIndex(0) as LineDataSet
             set1.values = entries
             set1.notifyDataSetChanged()
-            chart.getData().notifyDataChanged()
+            chart.data.notifyDataChanged()
             chart.notifyDataSetChanged()
             chart.invalidate()
         } else {
@@ -59,7 +59,7 @@ object ChartUtil {
             // set the filled area
             set1.setDrawFilled(true)
             set1.fillFormatter =
-                IFillFormatter { dataSet, dataProvider -> chart.getAxisLeft().getAxisMinimum() }
+                IFillFormatter { _, _ -> chart.axisLeft.axisMinimum }
 
             // set color of filled area
             if (Utils.getSDKInt() >= 18) {
@@ -77,7 +77,7 @@ object ChartUtil {
             val data = LineData(dataSets)
 
             // set data
-            chart.setData(data)
+            chart.data = data
             chart.invalidate()
             chart.notifyDataSetChanged()
         }

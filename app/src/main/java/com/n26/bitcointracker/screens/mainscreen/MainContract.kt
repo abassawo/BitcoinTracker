@@ -11,6 +11,7 @@ interface MainContract {
     }
 
     interface Presenter : BaseContract.Presenter<View> {
+        fun onPageSelected(index: Int)
         fun onConnectivityChecked(isNetworkAvailable: Boolean)
     }
 }

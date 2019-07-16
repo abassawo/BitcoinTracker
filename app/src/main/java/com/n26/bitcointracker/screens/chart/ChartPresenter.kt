@@ -1,31 +1,40 @@
 package com.n26.bitcointracker.screens.chart
 
-import android.util.Log
 import com.n26.bitcointracker.base.BasePresenter
+import com.n26.bitcointracker.models.ChartResponse
 import com.n26.bitcointracker.models.Range
 import com.n26.bitcointracker.rest.AppRepository
-import com.n26.bitcointracker.settings.UserSettingsManager
+import com.n26.bitcointracker.settings.UserSettings
+import timber.log.Timber
 import javax.inject.Inject
 
-class ChartPresenter @Inject constructor(appRepository: AppRepository) : BasePresenter<ChartContract.View>(appRepository),
+class ChartPresenter @Inject constructor(
+    userSettings: UserSettings,
+    appRepository: AppRepository
+) : BasePresenter<ChartContract.View>(userSettings, appRepository),
     ChartContract.Presenter {
 
-    override fun onRangeSelected(range: String) {
+    override fun onTimeSpanSelected(range: Range) {
         disposables.clear()
-
-        val disposable = appRepository.getChart(range)
+        view?.toggleChartVisibility(false)
+        val disposable = appRepository.getChart(range.timeSpan)
             .subscribe(
-                { response -> response.values?.let { view?.showChartData(it) } },
-                { e -> e?.message?.let { Log.d(TAG, it) } })
+                { response -> showResponse(response) },
+                { e -> showError(e) })
 
         disposables.add(disposable)
     }
 
-    private val TAG: String? = "MainPresenter"
+    private fun showResponse(response: ChartResponse?) {
+        response?.let {
+            view?.toggleChartVisibility(true)
+            view?.showChartData(response.values)
+        }
 
-    override fun onViewBound() {
-        onRangeSelected(getLastRange().timeSpan)
     }
 
-    private fun getLastRange() = appRepository.getLastRange()
+    private fun showError(throwable: Throwable) {
+        Timber.e(throwable)
+        view?.showChartLoadingError()
+    }
 }

@@ -1,16 +1,18 @@
 package com.n26.bitcointracker.screens.mainscreen
 
-import com.n26.bitcointracker.base.BaseMvpActivity
 import com.n26.bitcointracker.base.BasePresenter
 import com.n26.bitcointracker.models.Range
 import com.n26.bitcointracker.rest.AppRepository
-import com.n26.bitcointracker.settings.UserSettingsManager
-import com.n26.bitcointracker.utils.connectivity.ConnectivityUtil
+import com.n26.bitcointracker.settings.UserSettings
 import javax.inject.Inject
 
-class MainPresenter @Inject constructor(appRepository: AppRepository) :
-    BasePresenter<MainContract.View>(appRepository),
+class MainPresenter @Inject constructor(settings: UserSettings, appRepository: AppRepository) :
+    BasePresenter<MainContract.View>(settings, appRepository),
     MainContract.Presenter {
+
+    override fun onPageSelected(index: Int) {
+        userSettings.saveLastTimeSpanRange(Range.values()[index])
+    }
 
     override fun onViewBound() {
         super.onViewBound()
@@ -22,7 +24,7 @@ class MainPresenter @Inject constructor(appRepository: AppRepository) :
 
     override fun onConnectivityChecked(isNetworkAvailable: Boolean) {
         if (isNetworkAvailable) {
-            val lastSelectedRange =appRepository.getLastRange()
+            val lastSelectedRange = userSettings.getLastTimeSpanRange()
             view?.showChartPage(Range.values().indexOf(lastSelectedRange))
         } else {
             view?.showNoInternetWarning()

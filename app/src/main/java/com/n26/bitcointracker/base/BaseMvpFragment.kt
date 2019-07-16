@@ -31,7 +31,7 @@ abstract class BaseMvpFragment<P : BaseContract.Presenter<*>> : Fragment() {
     }
 
     /**
-     * Override this method to do any additional view initialization (ex: setup RecyclerView adapter)
+     * Override this method to do any additional view initialization (ex: init dagger)
      */
     open fun onViewCreated(@Nullable savedInstanceState: Bundle?) {
 

@@ -4,7 +4,8 @@ import androidx.annotation.NonNull
 import io.reactivex.*
 import org.reactivestreams.Publisher
 
-class SchedulerTransformer<R>(private val ioScheduler: Scheduler, private val uiScheduler: Scheduler
+class SchedulerTransformer<R>(
+    private val ioScheduler: Scheduler, private val uiScheduler: Scheduler
 ) : CombinedTransformer<R> {
 
     @NonNull
@@ -32,3 +33,6 @@ class SchedulerTransformer<R>(private val ioScheduler: Scheduler, private val ui
         return upstream.subscribeOn(ioScheduler).observeOn(uiScheduler)
     }
 }
+
+interface CombinedTransformer<R> : ObservableTransformer<R, R>, FlowableTransformer<R, R>,
+    SingleTransformer<R, R>, CompletableTransformer, MaybeTransformer<R, R>

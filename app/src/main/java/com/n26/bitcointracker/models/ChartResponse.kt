@@ -3,7 +3,7 @@ package com.n26.bitcointracker.models
 import androidx.annotation.StringRes
 import com.n26.bitcointracker.R
 
-class ChartResponse {
+open class ChartResponse {
     var unit: String? = null
 
     var period: String? = null
@@ -35,7 +35,6 @@ class Value {
 
     var y: String? = null
 
-    fun getXAsFloat() = x?.toFloat() ?: 0f
     fun getYAsFloat() = y?.toFloat() ?: 0f
 
     override fun toString(): String {
