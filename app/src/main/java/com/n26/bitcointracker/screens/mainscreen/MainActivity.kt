@@ -29,18 +29,15 @@ class MainActivity : BaseMvpActivity<MainContract.Presenter>(), MainContract.Vie
             currentItem = 0
             tabs.setupWithViewPager(this)
 
-
             viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
-                override fun onPageScrollStateChanged(state: Int) {
-                }
+                override fun onPageScrollStateChanged(state: Int) {}
 
                 override fun onPageScrolled(
                     position: Int,
                     positionOffset: Float,
                     positionOffsetPixels: Int
                 ) {
-
                 }
 
                 override fun onPageSelected(position: Int) {
@@ -49,19 +46,19 @@ class MainActivity : BaseMvpActivity<MainContract.Presenter>(), MainContract.Vie
 
             })
         }
-        presenter.bindview(this)
+        presenter.bindView(this)
     }
 
     override fun showNoInternetWarning() {
         Snackbar.make(viewPager, getString(R.string.internet_down_msg), Snackbar.LENGTH_INDEFINITE)
-            .setAction(R.string.check_internet_settings, {
+            .setAction(R.string.check_internet_settings) {
                 startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS))
-            })
+            }
             .show()
     }
 
     override fun showChartPage(rangeIndex: Int) {
-        viewPager.setCurrentItem(rangeIndex)
+        viewPager.currentItem = rangeIndex
     }
 
     override fun isNetworkAvailable(): Boolean {

@@ -14,19 +14,15 @@ abstract class BaseMvpFragment<P : BaseContract.Presenter<*>> : Fragment() {
     protected abstract fun getLayoutResourceId(): Int
     abstract fun getPresenter(): P
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(getLayoutResourceId(), container, false);
+    ): View? = inflater.inflate(getLayoutResourceId(), container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        onViewCreated(savedInstanceState);
+        onViewCreated(savedInstanceState)
         presenter = getPresenter()
     }
 
