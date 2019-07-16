@@ -5,18 +5,16 @@ import com.google.gson.GsonBuilder
 import com.n26.bitcointracker.AppConfig
 import com.n26.bitcointracker.base.RepoConfig
 import com.n26.bitcointracker.rest.RestApi
+import com.n26.bitcointracker.settings.UserSettingsManager
 import dagger.Module
 import dagger.Provides
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.internal.schedulers.IoScheduler
-import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -55,7 +53,15 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRepoConfig(restApi: RestApi, uiScheduler: Scheduler): RepoConfig {
-        return RepoConfig(uiScheduler, restApi)
+    fun provideUserSettingsManager(): UserSettingsManager = UserSettingsManager()
+
+    @Provides
+    @Singleton
+    fun provideRepoConfig(
+        restApi: RestApi,
+        userSettingsManager: UserSettingsManager,
+        uiScheduler: Scheduler
+    ): RepoConfig {
+        return RepoConfig(uiScheduler, userSettingsManager, restApi)
     }
 }

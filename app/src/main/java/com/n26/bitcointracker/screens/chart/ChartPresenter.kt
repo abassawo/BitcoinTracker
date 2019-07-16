@@ -27,5 +27,5 @@ class ChartPresenter @Inject constructor(appRepository: AppRepository) : BasePre
         onRangeSelected(getLastRange().timeSpan)
     }
 
-    private fun getLastRange() = UserSettingsManager.getLastRange() ?: Range.ALL
+    private fun getLastRange() = appRepository.getLastRange()
 }

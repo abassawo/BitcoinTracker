@@ -36,4 +36,9 @@ class MainActivity : BaseMvpActivity<MainContract.Presenter>(), MainContract.Vie
         }
         presenter.bindview(this)
     }
+
+    override fun isNetworkAvailable(): Boolean {
+        return true //todo
+    }
+
 }

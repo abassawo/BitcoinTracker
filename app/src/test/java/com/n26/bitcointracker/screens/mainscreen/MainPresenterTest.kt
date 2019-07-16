@@ -1,42 +1,35 @@
 package com.n26.bitcointracker.screens.mainscreen
 
-import com.n26.bitcointracker.BitcoinApp
-import com.n26.bitcointracker.base.RepoConfig
+import com.n26.bitcointracker.BasePresenterTest
 import com.n26.bitcointracker.rest.AppRepository
-import com.n26.bitcointracker.rest.RestApi
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.TestScheduler
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers
 import org.mockito.Mock
 import org.mockito.Mockito.*
-import org.mockito.MockitoAnnotations
-import org.mockito.junit.MockitoJUnitRunner
-//import org.powermock.core.classloader.annotations.PrepareForTest
 
-@RunWith(MockitoJUnitRunner::class)
-class MainPresenterTest {
-    protected lateinit var presenter: MainPresenter
+class MainPresenterTest : BasePresenterTest<MainPresenter>() {
     @Mock lateinit var mockView: MainContract.View
-    @Mock lateinit var mockRestApi: RestApi
 
     @Before
-    fun setup() {
-        MockitoAnnotations.initMocks(this   )
-        val repoConfig = RepoConfig(TestScheduler(), mockRestApi)
+    override fun setup() {
+        super.setup()
         presenter = MainPresenter(AppRepository(repoConfig))
+    }
+
+    @Test
+    fun `onViewBound should load Chart if Network is Available`() {
+        `when`(mockView.isNetworkAvailable()).thenReturn(true)
         presenter.bindview(mockView)
-    }
-
-    @Test
-    fun onViewBound() {
-        presenter.onViewBound()
         verify(mockView, never()).showNoInternetWarning()
+        verify(mockView).showChartPage(ArgumentMatchers.anyInt())
     }
 
     @Test
-    fun onConnectivityChecked() {
+    fun `onViewBound should load Error is Network is Not Available`() {
+        `when`(mockView.isNetworkAvailable()).thenReturn(false)
+        presenter.bindview(mockView)
+        verify(mockView).showNoInternetWarning()
+        verify(mockView, never()).showChartPage(ArgumentMatchers.anyInt())
     }
 }

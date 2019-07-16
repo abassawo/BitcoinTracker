@@ -2,12 +2,12 @@ package com.n26.bitcointracker.settings
 
 import com.n26.bitcointracker.models.Range
 
-object UserSettingsManager {
+open class UserSettingsManager {
 
     fun saveLastRange(range: Range) {
 
     }
 
-    fun getLastRange(): Range? = Range.ALL
+    open fun getLastRange(): Range? = Range.ALL
 
 }
