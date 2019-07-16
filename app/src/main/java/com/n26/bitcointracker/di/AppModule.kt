@@ -19,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-class AppModule(val application: BitcoinApp) {
+class AppModule(private val application: BitcoinApp) {
     @Provides
     @Singleton
     fun provideAppContext(): Context = application
@@ -51,7 +51,7 @@ class AppModule(val application: BitcoinApp) {
 
     @Provides
     @Singleton
-    fun provideRestApi(retrofit: Retrofit) = retrofit.create(RestApi::class.java)
+    fun provideRestApi(retrofit: Retrofit): RestApi = retrofit.create(RestApi::class.java)
 
 
     @Provides
@@ -72,6 +72,6 @@ class AppModule(val application: BitcoinApp) {
     fun provideSchedulerProvider(): SchedulerProvider = AppSchedulerProvider()
 
     companion object {
-        val BASE_URL = "https://api.blockchain.info/"
+        const val BASE_URL = "https://api.blockchain.info/"
     }
 }

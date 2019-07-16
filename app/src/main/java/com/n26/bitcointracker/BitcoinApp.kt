@@ -13,7 +13,7 @@ class BitcoinApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        initAppComponenet()
+        initAppComponent()
         appComponent?.inject(this)
         instance = this
         if (BuildConfig.DEBUG) {
@@ -26,7 +26,7 @@ class BitcoinApp : Application() {
             private set
     }
 
-    private fun initAppComponenet() {
+    private fun initAppComponent() {
         appComponent = DaggerAppComponent.builder()
             .appModule(AppModule(this))
             .build()

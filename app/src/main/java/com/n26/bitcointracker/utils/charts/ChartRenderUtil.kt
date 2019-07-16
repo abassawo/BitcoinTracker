@@ -26,7 +26,7 @@ object ChartRenderUtil {
             chart.notifyDataSetChanged()
             chart.invalidate()
         } else {
-            // create a dataset and give it a type
+            // create a dataSet and give it a type
             set1 = LineDataSet(entries, "DataSet 1")
 
             set1.setDrawIcons(false)

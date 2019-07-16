@@ -13,7 +13,7 @@ abstract class BasePresenter<V : BaseContract.View>(
     var view: V? = null
     private var isViewBound: Boolean = false
 
-    override fun bindview(view: V) {
+    override fun bindView(view: V) {
         this.view = view
 
         if (!isViewBound) {

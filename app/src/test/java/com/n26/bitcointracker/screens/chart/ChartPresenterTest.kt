@@ -24,7 +24,7 @@ class ChartPresenterTest : BasePresenterTest<ChartPresenter>() {
     override fun setup() {
         super.setup()
         presenter = ChartPresenter(mockSettings, appRepository)
-        presenter.bindview(mockView)
+        presenter.bindView(mockView)
     }
 
     @Test

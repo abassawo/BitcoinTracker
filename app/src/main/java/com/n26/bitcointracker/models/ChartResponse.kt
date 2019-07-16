@@ -3,18 +3,18 @@ package com.n26.bitcointracker.models
 import androidx.annotation.StringRes
 import com.n26.bitcointracker.R
 
-open class ChartResponse {
-    var unit: String? = null
+class ChartResponse {
+    private var unit: String? = null
 
-    var period: String? = null
+    private var period: String? = null
 
     var values: List<Value>? = null
 
-    var name: String? = null
+    private var name: String? = null
 
-    var description: String? = null
+    private var description: String? = null
 
-    var status: String? = null
+    private var status: String? = null
 
     override fun toString(): String {
         return "ChartResponse [unit = $unit, period = $period, values = $values, name = $name, description = $description, status = $status]"
@@ -22,18 +22,18 @@ open class ChartResponse {
 }
 
 enum class Range(val timeSpan: String, @StringRes val friendlyName: Int) {
-    `30_DAYS`("30days", R.string.thirty_days),
-    `60_DAY`("60days", R.string.sixty_days),
-    `180_DAYS`("180days", R.string.oneEighty_days),
-    `1_YEAR`("1year", R.string.one_year),
-    `2_YEARS`("2years", R.string.two_years),
+    THIRTY_DAYS("30days", R.string.thirty_days),
+    SIXTY_DAYS("60days", R.string.sixty_days),
+    HUNDRED_AND_EIGHTY_DAYS("180days", R.string.oneEighty_days),
+    ONE_YEAR("1year", R.string.one_year),
+    TWO_YEARS("2years", R.string.two_years),
     ALL("all", R.string.all)
 }
 
 class Value {
-    var x: String? = null
+    private var x: String? = null
 
-    var y: String? = null
+    private var y: String? = null
 
     fun getYAsFloat() = y?.toFloat() ?: 0f
 
