@@ -61,4 +61,9 @@ dependencies {
     def mockitoVersion = "2.23.0"
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
+
+    // UI tests
+    def androidTestVersion = "1.0.1"
+    androidTestImplementation "com.android.support.test:runner:$androidTestVersion"
+    androidTestImplementation "com.android.support.test:rules:$androidTestVersion"
 }

@@ -7,7 +7,8 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import com.n26.bitcointracker.models.Range
 import com.n26.bitcointracker.screens.chart.ChartFragment
 
-class TabAdapter(context: Context, fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager) {
+class TabAdapter(context: Context, fragmentManager: FragmentManager) :
+    FragmentStatePagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
     private val fragments = mutableListOf<Fragment>()
     private val titles = mutableListOf<String>()
 

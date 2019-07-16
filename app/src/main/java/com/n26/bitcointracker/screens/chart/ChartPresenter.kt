@@ -30,7 +30,6 @@ class ChartPresenter @Inject constructor(
             view?.toggleChartVisibility(true)
             view?.showChartData(response.values)
         }
-
     }
 
     private fun showError(throwable: Throwable) {

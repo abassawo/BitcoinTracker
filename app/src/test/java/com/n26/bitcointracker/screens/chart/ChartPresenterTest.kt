@@ -1,9 +1,9 @@
 package com.n26.bitcointracker.screens.chart
 
-import com.n26.bitcointracker.BasePresenterTest
 import com.n26.bitcointracker.models.ChartResponse
 import com.n26.bitcointracker.models.Range
 import com.n26.bitcointracker.models.Value
+import com.n26.bitcointracker.testutil.BasePresenterTest
 import com.n26.bitcointracker.testutil.ImmediateSchedulerRule
 import io.reactivex.Single
 import org.junit.Before
@@ -16,6 +16,7 @@ import org.mockito.Mockito.`when` as whenever
 @Rule
 @JvmField
 val immediateSchedulerRule = ImmediateSchedulerRule()
+
 class ChartPresenterTest : BasePresenterTest<ChartPresenter>() {
     @Mock
     lateinit var mockView: ChartContract.View
@@ -28,12 +29,14 @@ class ChartPresenterTest : BasePresenterTest<ChartPresenter>() {
     }
 
     @Test
-    fun `onViewBound test successful response`() {
+    fun `test successful response should trigger view to show latest chart data`() {
         //Arrange
         val chartResponse = ChartResponse()
         chartResponse.values = listOf(Value())
-        val single = Single.create<ChartResponse>{emitter
-            -> emitter.onSuccess(chartResponse)}
+        val single = Single.create<ChartResponse> { emitter
+            ->
+            emitter.onSuccess(chartResponse)
+        }
         whenever(mockRestApi.getChart(Range.ALL.timeSpan)).thenReturn(single)
 
         //Act
@@ -48,8 +51,7 @@ class ChartPresenterTest : BasePresenterTest<ChartPresenter>() {
     fun `test error case should trigger view to show error`() {
         //Arrange
         val error = "Test error"
-        val single = Single.create<ChartResponse> {
-                emitter ->
+        val single = Single.create<ChartResponse> { emitter ->
             emitter.onError(Exception(error))
         }
         whenever(mockRestApi.getChart(Range.ALL.timeSpan)).thenReturn(single)

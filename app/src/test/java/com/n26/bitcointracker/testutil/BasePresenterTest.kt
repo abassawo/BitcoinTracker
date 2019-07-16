@@ -1,10 +1,9 @@
-package com.n26.bitcointracker
+package com.n26.bitcointracker.testutil
 
 import com.n26.bitcointracker.base.BasePresenter
 import com.n26.bitcointracker.rest.AppRepository
 import com.n26.bitcointracker.rest.RestApi
 import com.n26.bitcointracker.settings.UserSettings
-import com.n26.bitcointracker.testutil.TestSchedulerProvider
 import org.junit.Before
 import org.junit.runner.RunWith
 import org.mockito.Mock
@@ -26,5 +25,4 @@ open class BasePresenterTest<P : BasePresenter<*>> {
         testSchedulerProvider = TestSchedulerProvider()
         appRepository = AppRepository(testSchedulerProvider, mockRestApi)
     }
-
 }
