@@ -17,7 +17,7 @@ abstract class BaseMvpActivity<P : BaseContract.Presenter<*>> : AppCompatActivit
     }
 
     /**
-     * Override this method to do any additional view initialization (ex: setup RecycleView adapter)
+     * Override this method to do any additional view initialization (ex: init dagger)
      */
     protected open fun onViewCreated(savedInstanceState: Bundle?) {
 

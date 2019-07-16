@@ -1,21 +1,34 @@
 package com.n26.bitcointracker
 
 import android.app.Application
-import com.n26.bitcointracker.di.BaseComponent
-import com.n26.bitcointracker.di.DaggerBaseComponent
+import com.n26.bitcointracker.di.AppComponent
+import com.n26.bitcointracker.di.DaggerAppComponent
+import com.n26.bitcointracker.di.AppModule
+import timber.log.Timber
+
+
 
 class BitcoinApp : Application() {
-    var baseLibComponent: BaseComponent? = null
+    var appComponent: AppComponent? = null
 
     override fun onCreate() {
         super.onCreate()
+        initAppComponenet()
+        appComponent?.inject(this)
         instance = this
-        baseLibComponent = DaggerBaseComponent.create()
-        baseLibComponent?.inject(this)
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
     }
 
     companion object {
         lateinit var instance: BitcoinApp
             private set
+    }
+
+    private fun initAppComponenet() {
+        appComponent = DaggerAppComponent.builder()
+            .appModule(AppModule(this))
+            .build()
     }
 }

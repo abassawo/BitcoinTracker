@@ -1,9 +1,14 @@
 package com.n26.bitcointracker.di
 
+import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.n26.bitcointracker.AppConfig
+import com.n26.bitcointracker.BitcoinApp
+import com.n26.bitcointracker.BuildConfig
+import com.n26.bitcointracker.rest.AppRepository
 import com.n26.bitcointracker.rest.RestApi
+import com.n26.bitcointracker.settings.UserSettings
+import com.n26.bitcointracker.settings.UserSettingsManager
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -14,7 +19,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-class NetworkModule {
+class AppModule(val application: BitcoinApp) {
+    @Provides
+    @Singleton
+    fun provideAppContext(): Context = application
+
     @Provides
     @Singleton
     fun providesGson(): Gson = GsonBuilder().create()
@@ -23,7 +32,8 @@ class NetworkModule {
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+        loggingInterceptor.level =
+            if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
             .build()
@@ -32,7 +42,7 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideRetrofit(client: OkHttpClient, gson: Gson): Retrofit {
-        return Retrofit.Builder().baseUrl(AppConfig.BASE_URL)
+        return Retrofit.Builder().baseUrl(BASE_URL)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -42,4 +52,26 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideRestApi(retrofit: Retrofit) = retrofit.create(RestApi::class.java)
+
+
+    @Provides
+    @Singleton
+    fun provideUserSettingsManager(): UserSettings = UserSettingsManager(application)
+
+    @Provides
+    @Singleton
+    fun provideRepository(
+        restApi: RestApi,
+        schedulerProvider: SchedulerProvider
+    ): AppRepository {
+        return AppRepository(schedulerProvider, restApi)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSchedulerProvider(): SchedulerProvider = AppSchedulerProvider()
+
+    companion object {
+        val BASE_URL = "https://api.blockchain.info/"
+    }
 }

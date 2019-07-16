@@ -7,10 +7,12 @@ import com.n26.bitcointracker.models.Value
 interface ChartContract {
 
     interface View : BaseContract.View {
-        fun showChartData(values: List<Value>)
+        fun toggleChartVisibility(visible: Boolean)
+        fun showChartData(values: List<Value>?)
+        fun showChartLoadingError()
     }
 
     interface Presenter : BaseContract.Presenter<View> {
-        fun onRangeSelected(range: String)
+        fun onTimeSpanSelected(range: Range)
     }
 }

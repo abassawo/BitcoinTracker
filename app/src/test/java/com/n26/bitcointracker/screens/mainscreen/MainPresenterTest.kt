@@ -1,34 +1,44 @@
 package com.n26.bitcointracker.screens.mainscreen
 
-import org.junit.Test
-
+import android.content.SharedPreferences
+import com.n26.bitcointracker.BasePresenterTest
+import com.n26.bitcointracker.models.Range
 import org.junit.Before
-import org.junit.Rule
-import org.junit.runner.RunWith
+import org.junit.Test
+import org.mockito.ArgumentMatchers
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.junit.MockitoJUnit
-import org.mockito.junit.MockitoJUnitRunner
-import org.powermock.modules.junit4.PowerMockRunner
+import org.mockito.Mockito.*
+import org.mockito.Mockito.`when` as whenever
 
-//@RunWith(PowerMockRunner::class)
-@RunWith(MockitoJUnitRunner::class)
-class MainPresenterTest {
-    protected var presenter: MainPresenter = MainPresenter()
+class MainPresenterTest : BasePresenterTest<MainPresenter>() {
     @Mock lateinit var mockView: MainContract.View
 
     @Before
-    fun setup() {
+    override fun setup() {
+        super.setup()
+        presenter = MainPresenter(mockSettings, appRepository)
+    }
+
+    @Test
+    fun `test that page navigation is persisted`() {
+        presenter.onPageSelected(Range.ALL.ordinal)
+        verify(mockSettings).saveLastTimeSpanRange(Range.ALL)
+    }
+
+    @Test
+    fun `onViewBound should load Chart if Network is Available`() {
+        whenever(mockView.isNetworkAvailable()).thenReturn(true)
         presenter.bindview(mockView)
+        verify(mockView, never()).showNoInternetWarning()
+        verify(mockView).showChartPage(ArgumentMatchers.anyInt())
     }
 
     @Test
-    fun onViewBound() {
-        presenter.onViewBound()
-
-    }
-
-    @Test
-    fun onConnectivityChecked() {
+    fun `onViewBound should load Error is Network is Not Available`() {
+        whenever(mockView.isNetworkAvailable()).thenReturn(false)
+        presenter.bindview(mockView)
+        verify(mockView).showNoInternetWarning()
+        verify(mockView, never()).showChartPage(ArgumentMatchers.anyInt())
     }
 }
