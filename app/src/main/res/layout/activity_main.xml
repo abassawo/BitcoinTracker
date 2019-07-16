@@ -1,5 +1,4 @@
-
-
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_content"
@@ -23,6 +22,7 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
             app:tabMode="fixed"
+            style="@style/TabLayout_Theme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
