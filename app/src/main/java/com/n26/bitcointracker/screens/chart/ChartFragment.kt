@@ -15,6 +15,7 @@ import com.n26.bitcointracker.models.Value
 import com.n26.bitcointracker.utils.DayValueFormatter
 import com.n26.bitcointracker.utils.DollarValueFormatter
 import com.n26.bitcointracker.utils.charts.ChartRenderUtil
+import com.n26.bitcointracker.views.ChartMarkerView
 import kotlinx.android.synthetic.main.fragment_chart.*
 import javax.inject.Inject
 
@@ -46,6 +47,11 @@ class ChartFragment : BaseMvpFragment<ChartContract.Presenter>(), ChartContract.
     }
 
     private fun setupChart(chart: LineChart) {
+        chart.setTouchEnabled(true)
+        chart.isHighlightPerTapEnabled = true
+        context?.let {
+            chart.marker = ChartMarkerView(it)
+        }
         chart.description.isEnabled = true
         chart.setBackgroundColor(Color.WHITE)
         val yAxis = chart.axisRight

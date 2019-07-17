@@ -12,7 +12,8 @@
 
 ## Overview
 The project contains the following components:
--   Ktx (Kotlin extensions for view binding) and Android Design Library
+-   Ktx (Kotlin synthetic properties for more efficient view binding), Extension functions
+-   Android Design Library
 -   MPAndroidChart for displaying charts
 -   Commonly used third party dependencies (RxJava, retrofit, etc))
 -   Base MVP framework

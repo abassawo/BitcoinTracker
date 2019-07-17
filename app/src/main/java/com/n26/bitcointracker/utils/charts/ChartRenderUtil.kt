@@ -29,7 +29,7 @@ object ChartRenderUtil {
             // create a dataSet and give it a type
             set1 = LineDataSet(entries, "Bitcoin Value in US Dollars")
 
-            set1.setDrawIcons(false)
+            set1.setDrawIcons(true)
 
             // draw dashed line
             set1.enableDashedLine(10f, 5f, 0f)
@@ -51,6 +51,7 @@ object ChartRenderUtil {
             set1.formSize = 15f
 
             // text size of values
+            set1.setDrawValues(false)
             set1.valueTextSize = 9f
 
             // draw selection line as dashed
