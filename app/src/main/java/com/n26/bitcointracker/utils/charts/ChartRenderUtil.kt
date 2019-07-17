@@ -27,7 +27,7 @@ object ChartRenderUtil {
             chart.invalidate()
         } else {
             // create a dataSet and give it a type
-            set1 = LineDataSet(entries, "DataSet 1")
+            set1 = LineDataSet(entries, "Bitcoin Value in US Dollars")
 
             set1.setDrawIcons(false)
 

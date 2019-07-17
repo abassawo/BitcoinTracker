@@ -32,5 +32,4 @@ abstract class BaseMvpFragment<P : BaseContract.Presenter<*>> : Fragment() {
     open fun onViewCreated(@Nullable savedInstanceState: Bundle?) {
 
     }
-
 }

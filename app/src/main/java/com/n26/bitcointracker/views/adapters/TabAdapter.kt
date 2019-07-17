@@ -13,7 +13,7 @@ class TabAdapter(context: Context, fragmentManager: FragmentManager) : FragmentS
 
     init {
         for (value in Range.values()) {
-            addFragment(ChartFragment.newInstance(value), context.getString(value.friendlyName))
+            addFragment(ChartFragment.newInstance(value), context.getString(value.shortLabel))
         }
         notifyDataSetChanged()
     }

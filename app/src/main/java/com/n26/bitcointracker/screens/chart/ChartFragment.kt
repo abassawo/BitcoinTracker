@@ -12,6 +12,8 @@ import com.n26.bitcointracker.R
 import com.n26.bitcointracker.base.BaseMvpFragment
 import com.n26.bitcointracker.models.Range
 import com.n26.bitcointracker.models.Value
+import com.n26.bitcointracker.utils.DayValueFormatter
+import com.n26.bitcointracker.utils.DollarValueFormatter
 import com.n26.bitcointracker.utils.charts.ChartRenderUtil
 import kotlinx.android.synthetic.main.fragment_chart.*
 import javax.inject.Inject
@@ -44,10 +46,25 @@ class ChartFragment : BaseMvpFragment<ChartContract.Presenter>(), ChartContract.
     }
 
     private fun setupChart(chart: LineChart) {
+        chart.description.isEnabled = true
         chart.setBackgroundColor(Color.WHITE)
+        val yAxis = chart.axisRight
+        yAxis.isEnabled = false
+
+        val leftYAxis = chart.axisLeft
+        leftYAxis.valueFormatter = DollarValueFormatter()
+
+        val xAxis = chart.xAxis
+        xAxis.valueFormatter = DayValueFormatter()
     }
 
-    override fun showChartData(values: List<Value>?) {
+    override fun showChartData(values: List<Value>?, range: Range) {
+        if(range == Range.ALL) {
+            chart.description.text = getString(R.string.all_available_data_description)
+        } else {
+            chart.description.text = getString(R.string.generic_chart_text, range.timeSpan)
+        }
+
         values?.let {
             val entries = mutableListOf<Entry>()
             for ((index, value) in it.withIndex()) {
@@ -59,6 +76,7 @@ class ChartFragment : BaseMvpFragment<ChartContract.Presenter>(), ChartContract.
         }
     }
 
+
     override fun toggleChartVisibility(visible: Boolean) {
         chart.visibility = if (visible) VISIBLE else GONE
     }
@@ -67,7 +85,6 @@ class ChartFragment : BaseMvpFragment<ChartContract.Presenter>(), ChartContract.
     override fun showChartLoadingError() {
         Toast.makeText(context, R.string.error_fetching_chart, Toast.LENGTH_LONG).show()
     }
-
 
     companion object {
         private const val ARG_RANGE_KEY = "argRange"

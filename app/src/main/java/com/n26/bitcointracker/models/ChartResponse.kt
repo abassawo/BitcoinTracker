@@ -21,14 +21,18 @@ class ChartResponse {
     }
 }
 
-enum class Range(val timeSpan: String, @StringRes val friendlyName: Int) {
-    THIRTY_DAYS("30days", R.string.thirty_days),
-    SIXTY_DAYS("60days", R.string.sixty_days),
-    HUNDRED_AND_EIGHTY_DAYS("180days", R.string.oneEighty_days),
-    ONE_YEAR("1year", R.string.one_year),
-    TWO_YEARS("2years", R.string.two_years),
+enum class Range(val timeSpan: String, @StringRes val shortLabel: Int) {
+    THIRTY_DAYS("30 days", R.string.thirty_days),
+    SIXTY_DAYS("60 days", R.string.sixty_days),
+    HUNDRED_AND_EIGHTY_DAYS("180 days", R.string.oneEighty_days),
+    ONE_YEAR("1 year", R.string.one_year),
+    TWO_YEARS("2 years", R.string.two_years),
     ALL("all", R.string.all)
 }
+
+//Extension function used to support valid queries - ex: 30 days -> 30days
+fun Range.getTimeSpanQueryText() : String = timeSpan.replace(" ", "").trim()
+
 
 class Value {
     private var x: String? = null

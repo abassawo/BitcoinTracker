@@ -8,7 +8,7 @@ interface ChartContract {
 
     interface View : BaseContract.View {
         fun toggleChartVisibility(visible: Boolean)
-        fun showChartData(values: List<Value>?)
+        fun showChartData(values: List<Value>?, range: Range)
         fun showChartLoadingError()
     }
 

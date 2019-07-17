@@ -8,6 +8,5 @@ interface BaseContract {
         fun bindView(view: V)
         fun unbindView()
         fun onViewDestroyed()
-
     }
 }
