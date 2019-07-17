@@ -50,8 +50,8 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     api "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     api "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
-    def okhttpVersion = "3.9.1"
-    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+    def okHttpVersion = "3.9.1"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
 
     //rx
     implementation "io.reactivex.rxjava2:rxjava:2.2.10"
