@@ -7,7 +7,7 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.snackbar.Snackbar
 import com.n26.bitcointracker.BitcoinApp
 import com.n26.bitcointracker.R
-import com.n26.bitcointracker.adapters.TabAdapter
+import com.n26.bitcointracker.views.adapters.TabAdapter
 import com.n26.bitcointracker.base.BaseMvpActivity
 import com.n26.bitcointracker.utils.connectivity.ConnectivityUtil
 import kotlinx.android.synthetic.main.activity_main.*

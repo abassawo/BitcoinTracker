@@ -1,4 +1,4 @@
-package com.n26.bitcointracker.adapters
+package com.n26.bitcointracker.views.adapters
 
 import android.content.Context
 import androidx.fragment.app.Fragment

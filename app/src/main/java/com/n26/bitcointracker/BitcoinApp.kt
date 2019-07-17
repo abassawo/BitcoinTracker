@@ -6,8 +6,6 @@ import com.n26.bitcointracker.di.DaggerAppComponent
 import com.n26.bitcointracker.di.AppModule
 import timber.log.Timber
 
-
-
 class BitcoinApp : Application() {
     var appComponent: AppComponent? = null
 
