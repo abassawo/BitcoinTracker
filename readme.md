@@ -47,3 +47,8 @@ The app uses the popular MVP architecture to allow for separation of logic and e
 - Retrofit/OkHttp (simplifies network requests)
 - Timber (better logging tool)
 - Mockito (mocks out classes for tests)
+
+### Preview
+
+![Imgur](https://i.imgur.com/vUUceU8l.png)
+![Bitcoin Tracker](https://i.imgur.com/VVA4ol3l.png)
