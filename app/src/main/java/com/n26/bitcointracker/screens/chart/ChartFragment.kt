@@ -5,13 +5,16 @@ import android.os.Bundle
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProviders
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.Entry
 import com.n26.bitcointracker.BitcoinApp
 import com.n26.bitcointracker.R
 import com.n26.bitcointracker.base.BaseMvpFragment
+import com.n26.bitcointracker.base.BaseViewModel
 import com.n26.bitcointracker.models.Range
 import com.n26.bitcointracker.models.Value
+import com.n26.bitcointracker.screens.mainscreen.MainViewModel
 import com.n26.bitcointracker.utils.DayValueFormatter
 import com.n26.bitcointracker.utils.DollarValueFormatter
 import com.n26.bitcointracker.utils.charts.ChartRenderUtil
@@ -19,13 +22,13 @@ import com.n26.bitcointracker.views.ChartMarkerView
 import kotlinx.android.synthetic.main.fragment_chart.*
 import javax.inject.Inject
 
-class ChartFragment : BaseMvpFragment<ChartContract.Presenter>(), ChartContract.View {
-    @Inject
-    lateinit var presenter: ChartPresenter
+class ChartFragment : BaseMvpFragment() {
+    override fun getViewModel(): BaseViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+//    @Inject
+//    lateinit var presenter: ChartPresenter
 
     override fun getLayoutResourceId(): Int = R.layout.fragment_chart
 
-    override fun getPresenter(): ChartContract.Presenter = presenter
 
     override fun onViewCreated(savedInstanceState: Bundle?) {
         super.onViewCreated(savedInstanceState)
@@ -36,9 +39,9 @@ class ChartFragment : BaseMvpFragment<ChartContract.Presenter>(), ChartContract.
     }
 
     private fun updateUI() {
-        presenter.bindView(this)
+//        presenter.bindView(this)
         getRangeIndex().let {
-            presenter.onTimeSpanSelected(Range.values()[it])
+//            presenter.onTimeSpanSelected(Range.values()[it])
         }
     }
 
@@ -64,7 +67,7 @@ class ChartFragment : BaseMvpFragment<ChartContract.Presenter>(), ChartContract.
         xAxis.valueFormatter = DayValueFormatter()
     }
 
-    override fun showChartData(values: List<Value>?, range: Range) {
+    fun showChartData(values: List<Value>?, range: Range) {
         if(range == Range.ALL) {
             chart.description.text = getString(R.string.all_available_data_description)
         } else {
@@ -83,14 +86,14 @@ class ChartFragment : BaseMvpFragment<ChartContract.Presenter>(), ChartContract.
     }
 
 
-    override fun toggleChartVisibility(visible: Boolean) {
-        chart.visibility = if (visible) VISIBLE else GONE
-    }
-
-
-    override fun showChartLoadingError() {
-        Toast.makeText(context, R.string.error_fetching_chart, Toast.LENGTH_LONG).show()
-    }
+//    override fun toggleChartVisibility(visible: Boolean) {
+//        chart.visibility = if (visible) VISIBLE else GONE
+//    }
+//
+//
+//    override fun showChartLoadingError() {
+//        Toast.makeText(context, R.string.error_fetching_chart, Toast.LENGTH_LONG).show()
+//    }
 
     companion object {
         private const val ARG_RANGE_KEY = "argRange"

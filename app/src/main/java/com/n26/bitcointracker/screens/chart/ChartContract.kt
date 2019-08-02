@@ -3,6 +3,7 @@ package com.n26.bitcointracker.screens.chart
 import com.n26.bitcointracker.base.BaseContract
 import com.n26.bitcointracker.models.Range
 import com.n26.bitcointracker.models.Value
+import com.n26.bitcointracker.screens.mainscreen.MainContract
 
 interface ChartContract {
 
@@ -12,7 +13,11 @@ interface ChartContract {
         fun showChartLoadingError()
     }
 
-    interface Presenter : BaseContract.Presenter<View> {
-        fun onTimeSpanSelected(range: Range)
+//    interface Presenter : BaseContract.Presenter<View> {
+//        fun onTimeSpanSelected(range: Range)
+//    }
+
+    interface ViewModel : BaseContract.ViewModel<MainContract.View> {
+
     }
 }

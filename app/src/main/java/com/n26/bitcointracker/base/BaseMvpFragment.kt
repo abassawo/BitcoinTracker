@@ -7,12 +7,11 @@ import android.view.ViewGroup
 import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
 
-abstract class BaseMvpFragment<P : BaseContract.Presenter<*>> : Fragment() {
+abstract class BaseMvpFragment : Fragment() {
 
-    private lateinit var presenter: P
+    private lateinit var viewModel: BaseViewModel
 
     protected abstract fun getLayoutResourceId(): Int
-    abstract fun getPresenter(): P
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,8 +22,10 @@ abstract class BaseMvpFragment<P : BaseContract.Presenter<*>> : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onViewCreated(savedInstanceState)
-        presenter = getPresenter()
+        viewModel = getViewModel()
     }
+
+    abstract fun getViewModel(): BaseViewModel
 
     /**
      * Override this method to do any additional view initialization (ex: init dagger)

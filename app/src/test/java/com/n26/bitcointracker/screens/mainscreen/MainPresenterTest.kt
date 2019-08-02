@@ -26,16 +26,26 @@ class MainPresenterTest : BasePresenterTest<MainPresenter>() {
 
     @Test
     fun `onViewBound should load Chart if Network is Available`() {
+        //Arrange
         whenever(mockView.isNetworkAvailable()).thenReturn(true)
+
+        //Act
         presenter.bindView(mockView)
+
+        //Assert
         verify(mockView, never()).showNoInternetWarning()
-        verify(mockView).showChartPage(ArgumentMatchers.anyInt())
+        verify(mockView).showChartPage(anyInt())
     }
 
     @Test
-    fun `onViewBound should load Error is Network is Not Available`() {
+    fun `onViewBound should load Error if Network is Not Available`() {
+        //Arrange
         whenever(mockView.isNetworkAvailable()).thenReturn(false)
+
+        //Act
         presenter.bindView(mockView)
+
+        //Assert
         verify(mockView).showNoInternetWarning()
         verify(mockView, never()).showChartPage(ArgumentMatchers.anyInt())
     }

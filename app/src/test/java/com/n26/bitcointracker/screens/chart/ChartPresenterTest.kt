@@ -37,6 +37,7 @@ class ChartPresenterTest : BasePresenterTest<ChartPresenter>() {
             -> emitter.onSuccess(chartResponse)}
         whenever(mockRestApi.getChart(Range.ALL.getTimeSpanQueryText())).thenReturn(single)
 
+
         //Act
         presenter.onTimeSpanSelected(Range.ALL)
 
