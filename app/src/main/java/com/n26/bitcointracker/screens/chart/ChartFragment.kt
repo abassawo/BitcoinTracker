@@ -12,6 +12,7 @@ import com.n26.bitcointracker.BitcoinApp
 import com.n26.bitcointracker.R
 import com.n26.bitcointracker.base.BaseMvpFragment
 import com.n26.bitcointracker.base.BaseViewModel
+import com.n26.bitcointracker.base.ViewEvent
 import com.n26.bitcointracker.models.Range
 import com.n26.bitcointracker.models.Value
 import com.n26.bitcointracker.screens.mainscreen.MainViewModel
@@ -22,10 +23,9 @@ import com.n26.bitcointracker.views.ChartMarkerView
 import kotlinx.android.synthetic.main.fragment_chart.*
 import javax.inject.Inject
 
-class ChartFragment : BaseMvpFragment() {
-    override fun getViewModel(): BaseViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-//    @Inject
-//    lateinit var presenter: ChartPresenter
+class ChartFragment : BaseMvpFragment<ChartViewModel>() {
+    override fun createViewModel(): ChartViewModel =
+        ViewModelProviders.of(this).get(ChartViewModel::class.java)
 
     override fun getLayoutResourceId(): Int = R.layout.fragment_chart
 
@@ -38,10 +38,18 @@ class ChartFragment : BaseMvpFragment() {
         swipeRefresh.setOnRefreshListener { updateUI() }
     }
 
+    override fun onViewEvent(event: ViewEvent) {
+        when (event) {
+            is ChartViewEvent.DataLoaded -> with(event) {
+                showChartData(chartResponse.values, range)
+            }
+            is ChartViewEvent.ErrorCase -> showChartLoadingError()
+        }
+    }
+
     private fun updateUI() {
-//        presenter.bindView(this)
         getRangeIndex().let {
-//            presenter.onTimeSpanSelected(Range.values()[it])
+            viewModel.onTimeSpanSelected(Range.values()[it])
         }
     }
 
@@ -68,7 +76,7 @@ class ChartFragment : BaseMvpFragment() {
     }
 
     fun showChartData(values: List<Value>?, range: Range) {
-        if(range == Range.ALL) {
+        if (range == Range.ALL) {
             chart.description.text = getString(R.string.all_available_data_description)
         } else {
             chart.description.text = getString(R.string.generic_chart_text, range.timeSpan)
@@ -85,15 +93,9 @@ class ChartFragment : BaseMvpFragment() {
         }
     }
 
-
-//    override fun toggleChartVisibility(visible: Boolean) {
-//        chart.visibility = if (visible) VISIBLE else GONE
-//    }
-//
-//
-//    override fun showChartLoadingError() {
-//        Toast.makeText(context, R.string.error_fetching_chart, Toast.LENGTH_LONG).show()
-//    }
+    fun showChartLoadingError() {
+        context?.let {  Toast.makeText(it, R.string.error_fetching_chart, Toast.LENGTH_LONG).show() }
+    }
 
     companion object {
         private const val ARG_RANGE_KEY = "argRange"

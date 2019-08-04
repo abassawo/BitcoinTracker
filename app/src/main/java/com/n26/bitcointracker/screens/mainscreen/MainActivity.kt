@@ -9,15 +9,12 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.snackbar.Snackbar
 import com.n26.bitcointracker.BitcoinApp
 import com.n26.bitcointracker.R
-import com.n26.bitcointracker.views.adapters.TabAdapter
 import com.n26.bitcointracker.base.BaseMvvmActivity
-import com.n26.bitcointracker.base.BaseViewModel
+import com.n26.bitcointracker.base.ViewEvent
 import com.n26.bitcointracker.models.Range
 import com.n26.bitcointracker.settings.UserSettings
-import com.n26.bitcointracker.settings.UserSettingsManager
-import com.n26.bitcointracker.utils.connectivity.ConnectivityUtil
+import com.n26.bitcointracker.views.adapters.TabAdapter
 import kotlinx.android.synthetic.main.activity_main.*
-import java.awt.font.NumericShaper
 import javax.inject.Inject
 
 class MainActivity : BaseMvvmActivity<MainViewModel>() {
@@ -37,10 +34,15 @@ class MainActivity : BaseMvvmActivity<MainViewModel>() {
             this@MainActivity, Observer { e -> processNetworkAvailability(e) })
     }
 
+    override fun onViewEvent(event: ViewEvent) {
+        if(event is MainViewEvent.PageSelected) {
+            userSettings.saveLastTimeSpanRange(Range.values()[event.index])
+        }
+    }
+
     private fun setupViewPager(viewPager: ViewPager) {
         with(viewPager) {
             adapter = TabAdapter(this@MainActivity, supportFragmentManager)
-            currentItem = 0
             tabs.setupWithViewPager(this)
 
             viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
@@ -55,7 +57,7 @@ class MainActivity : BaseMvvmActivity<MainViewModel>() {
                 }
 
                 override fun onPageSelected(position: Int) {
-                    userSettings.saveLastTimeSpanRange(Range.values()[position])
+                    viewModel.onPageSelected(position)
                 }
             })
         }
@@ -63,7 +65,7 @@ class MainActivity : BaseMvvmActivity<MainViewModel>() {
 
     private fun processNetworkAvailability(networkAvailable: Boolean) {
         if (networkAvailable) {
-            showChartPage(0)
+            showChartPage(Range.values().indexOf(userSettings.getLastTimeSpanRange()))
         } else {
             showNoInternetWarning()
         }

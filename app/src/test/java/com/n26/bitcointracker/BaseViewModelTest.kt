@@ -1,6 +1,6 @@
 package com.n26.bitcointracker
 
-import com.n26.bitcointracker.base.BasePresenter
+import com.n26.bitcointracker.base.BaseViewModel
 import com.n26.bitcointracker.models.ChartResponse
 import com.n26.bitcointracker.models.Range
 import com.n26.bitcointracker.rest.AppRepository
@@ -16,11 +16,14 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.Mockito.`when` as whenever
 
 @RunWith(MockitoJUnitRunner::class)
-open class BasePresenterTest<P : BasePresenter<*>> {
+open class BaseViewModelTest<P : BaseViewModel> {
+    lateinit var viewModel: P
     lateinit var appRepository: AppRepository
     lateinit var presenter: P
     @Mock
     lateinit var mockRestApi: RestApi
+    @Mock
+    lateinit var mockApp: BitcoinApp
     @Mock
     lateinit var mockSettings: UserSettings
     lateinit var testSchedulerProvider: TestSchedulerProvider
