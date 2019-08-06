@@ -2,7 +2,9 @@ package com.n26.bitcointracker.base
 
 interface BaseContract {
 
-    interface View
+    interface View {
+
+    }
 
     interface Presenter<V : View> {
         fun bindView(view: V)

@@ -12,9 +12,5 @@ import javax.inject.Singleton
 interface  AppComponent {
     fun inject(mainActivity: MainActivity)
     fun inject(app: BitcoinApp)
-    fun inject(chartFragment: ChartFragment) {
-
-    }
-
-    fun inject(appRepository: AppRepository)
+    fun inject(chartFragment: ChartFragment)
 }

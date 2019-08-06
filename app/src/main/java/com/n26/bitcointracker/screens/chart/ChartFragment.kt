@@ -10,6 +10,7 @@ import com.github.mikephil.charting.data.Entry
 import com.n26.bitcointracker.BitcoinApp
 import com.n26.bitcointracker.R
 import com.n26.bitcointracker.base.BaseMvpFragment
+import com.n26.bitcointracker.base.ScreenState
 import com.n26.bitcointracker.models.Range
 import com.n26.bitcointracker.models.Value
 import com.n26.bitcointracker.utils.DayValueFormatter
@@ -20,6 +21,7 @@ import kotlinx.android.synthetic.main.fragment_chart.*
 import javax.inject.Inject
 
 class ChartFragment : BaseMvpFragment<ChartContract.Presenter>(), ChartContract.View {
+
     @Inject
     lateinit var presenter: ChartPresenter
 
@@ -82,14 +84,12 @@ class ChartFragment : BaseMvpFragment<ChartContract.Presenter>(), ChartContract.
         }
     }
 
-
     override fun toggleChartVisibility(visible: Boolean) {
         chart.visibility = if (visible) VISIBLE else GONE
     }
 
-
-    override fun showChartLoadingError() {
-        Toast.makeText(context, R.string.error_fetching_chart, Toast.LENGTH_LONG).show()
+    override fun showChartLoadingError(errorMsg: Throwable) {
+        Toast.makeText(context, errorMsg.message, Toast.LENGTH_LONG).show()
     }
 
     companion object {

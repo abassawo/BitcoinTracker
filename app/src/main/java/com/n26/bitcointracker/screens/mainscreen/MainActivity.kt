@@ -7,13 +7,14 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.snackbar.Snackbar
 import com.n26.bitcointracker.BitcoinApp
 import com.n26.bitcointracker.R
-import com.n26.bitcointracker.views.adapters.TabAdapter
 import com.n26.bitcointracker.base.BaseMvpActivity
-import com.n26.bitcointracker.utils.connectivity.ConnectivityUtil
+import com.n26.bitcointracker.base.ScreenState
+import com.n26.bitcointracker.views.adapters.TabAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 class MainActivity : BaseMvpActivity<MainContract.Presenter>(), MainContract.View {
+
     @Inject
     lateinit var presenter: MainPresenter
 
@@ -29,7 +30,7 @@ class MainActivity : BaseMvpActivity<MainContract.Presenter>(), MainContract.Vie
             currentItem = 0
             tabs.setupWithViewPager(this)
 
-            viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
                 override fun onPageScrollStateChanged(state: Int) {}
 
@@ -49,19 +50,7 @@ class MainActivity : BaseMvpActivity<MainContract.Presenter>(), MainContract.Vie
         presenter.bindView(this)
     }
 
-    override fun showNoInternetWarning() {
-        Snackbar.make(viewPager, getString(R.string.internet_down_msg), Snackbar.LENGTH_INDEFINITE)
-            .setAction(R.string.check_internet_settings) {
-                startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS))
-            }
-            .show()
-    }
-
     override fun showChartPage(rangeIndex: Int) {
         viewPager.currentItem = rangeIndex
-    }
-
-    override fun isNetworkAvailable(): Boolean {
-        return ConnectivityUtil.isNetworkAvailable(this)
     }
 }

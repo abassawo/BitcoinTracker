@@ -5,13 +5,10 @@ import com.n26.bitcointracker.base.BaseContract
 interface MainContract {
 
     interface View : BaseContract.View {
-        fun showNoInternetWarning()
         fun showChartPage(rangeIndex: Int)
-        fun isNetworkAvailable(): Boolean
     }
 
     interface Presenter : BaseContract.Presenter<View> {
         fun onPageSelected(index: Int)
-        fun onConnectivityChecked(isNetworkAvailable: Boolean)
     }
 }

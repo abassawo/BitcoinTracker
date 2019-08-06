@@ -48,10 +48,10 @@ class ChartPresenterTest : BasePresenterTest<ChartPresenter>() {
     @Test
     fun `test error case should trigger view to show error`() {
         //Arrange
-        val error = "Test error"
+        val error = Exception("Test error")
         val single = Single.create<ChartResponse> {
                 emitter ->
-            emitter.onError(Exception(error))
+            emitter.onError(error)
         }
         whenever(mockRestApi.getChart(Range.ALL.getTimeSpanQueryText())).thenReturn(single)
 
@@ -60,6 +60,6 @@ class ChartPresenterTest : BasePresenterTest<ChartPresenter>() {
 
         //Assert
         testSchedulerProvider.testScheduler.triggerActions()
-        verify(mockView).showChartLoadingError()
+        verify(mockView).showChartLoadingError(error)
     }
 }

@@ -10,24 +10,14 @@ class MainPresenter @Inject constructor(settings: UserSettings, appRepository: A
     BasePresenter<MainContract.View>(settings, appRepository),
     MainContract.Presenter {
 
-    override fun onPageSelected(index: Int) {
+    override fun onPageSelected(index: Int) =
         userSettings.saveLastTimeSpanRange(Range.values()[index])
-    }
 
     override fun onViewBound() {
         super.onViewBound()
         view?.let {
-            val isNetworkAvailable = it.isNetworkAvailable()
-            onConnectivityChecked(isNetworkAvailable)
-        }
-    }
-
-    override fun onConnectivityChecked(isNetworkAvailable: Boolean) {
-        if (isNetworkAvailable) {
             val lastSelectedRange = userSettings.getLastTimeSpanRange()
             view?.showChartPage(Range.values().indexOf(lastSelectedRange))
-        } else {
-            view?.showNoInternetWarning()
         }
     }
 }

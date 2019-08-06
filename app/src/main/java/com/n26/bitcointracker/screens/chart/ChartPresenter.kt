@@ -1,6 +1,7 @@
 package com.n26.bitcointracker.screens.chart
 
 import com.n26.bitcointracker.base.BasePresenter
+import com.n26.bitcointracker.base.ScreenState
 import com.n26.bitcointracker.models.ChartResponse
 import com.n26.bitcointracker.models.Range
 import com.n26.bitcointracker.models.getTimeSpanQueryText
@@ -22,7 +23,7 @@ class ChartPresenter @Inject constructor(
         val disposable = appRepository.getChart(range.getTimeSpanQueryText())
             .subscribe(
                 { response -> showResponse(response, range) },
-                { e -> showError(e) })
+                { e -> onScreenStateUpdated(ScreenState.Error(e)) })
 
         disposables.add(disposable)
     }
@@ -34,8 +35,14 @@ class ChartPresenter @Inject constructor(
         }
     }
 
+    private fun onScreenStateUpdated(screenState: ScreenState) {
+        when(screenState) {
+            is ScreenState.Error -> showError(screenState.errorMsg)
+        }
+    }
+
     private fun showError(throwable: Throwable) {
         Timber.e(throwable)
-        view?.showChartLoadingError()
+        view?.showChartLoadingError(throwable)
     }
 }

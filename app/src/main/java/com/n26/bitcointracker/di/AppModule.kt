@@ -6,11 +6,15 @@ import com.google.gson.GsonBuilder
 import com.n26.bitcointracker.BitcoinApp
 import com.n26.bitcointracker.BuildConfig
 import com.n26.bitcointracker.rest.AppRepository
+import com.n26.bitcointracker.rest.ConnectivityInterceptor
 import com.n26.bitcointracker.rest.RestApi
 import com.n26.bitcointracker.settings.UserSettings
 import com.n26.bitcointracker.settings.UserSettingsManager
+import com.n26.bitcointracker.utils.connectivity.ConnectivityUtil
 import dagger.Module
 import dagger.Provides
+import dagger.Reusable
+import io.reactivex.Single
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -30,12 +34,13 @@ class AppModule(private val application: BitcoinApp) {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
+    fun provideOkHttpClient(connectivityInterceptor: ConnectivityInterceptor): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.level =
             if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
+            .addInterceptor(connectivityInterceptor)
             .build()
     }
 
@@ -48,6 +53,10 @@ class AppModule(private val application: BitcoinApp) {
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
     }
+
+    @Provides
+    fun provideConnectivityInterceptor(context: Context) = ConnectivityInterceptor(context, Single.just(ConnectivityUtil.isNetworkAvailable(context)))
+
 
     @Provides
     @Singleton

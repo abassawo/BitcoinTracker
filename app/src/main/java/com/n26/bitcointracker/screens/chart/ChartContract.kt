@@ -9,7 +9,7 @@ interface ChartContract {
     interface View : BaseContract.View {
         fun toggleChartVisibility(visible: Boolean)
         fun showChartData(values: List<Value>?, range: Range)
-        fun showChartLoadingError()
+        fun showChartLoadingError(errorMsg: Throwable)
     }
 
     interface Presenter : BaseContract.Presenter<View> {
