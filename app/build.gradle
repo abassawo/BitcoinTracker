@@ -34,6 +34,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
     implementation "androidx.preference:preference:1.1.0-rc01"
 
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+
     //Chart Lib(s)
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
@@ -67,4 +69,6 @@ dependencies {
     def androidTestVersion = "1.0.1"
     androidTestImplementation "com.android.support.test:runner:$androidTestVersion"
     androidTestImplementation "com.android.support.test:rules:$androidTestVersion"
+    implementation 'com.facebook.stetho:stetho:1.5.1'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
 }

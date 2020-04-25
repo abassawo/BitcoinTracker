@@ -2,43 +2,59 @@ package com.n26.bitcointracker.screens.chart
 
 import android.graphics.Color
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.Entry
 import com.n26.bitcointracker.BitcoinApp
 import com.n26.bitcointracker.R
-import com.n26.bitcointracker.base.BaseMvpFragment
 import com.n26.bitcointracker.models.Range
-import com.n26.bitcointracker.models.Value
 import com.n26.bitcointracker.utils.DayValueFormatter
 import com.n26.bitcointracker.utils.DollarValueFormatter
 import com.n26.bitcointracker.utils.charts.ChartRenderUtil
 import com.n26.bitcointracker.views.ChartMarkerView
 import kotlinx.android.synthetic.main.fragment_chart.*
-import javax.inject.Inject
 
-class ChartFragment : BaseMvpFragment<ChartContract.Presenter>(), ChartContract.View {
-    @Inject
-    lateinit var presenter: ChartPresenter
+class ChartFragment : Fragment() {
+    private lateinit var viewModel: ChartViewModel
 
-    override fun getLayoutResourceId(): Int = R.layout.fragment_chart
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View = inflater.inflate(R.layout.fragment_chart, container, false)
 
-    override fun getPresenter(): ChartContract.Presenter = presenter
 
-    override fun onViewCreated(savedInstanceState: Bundle?) {
-        super.onViewCreated(savedInstanceState)
-        BitcoinApp.instance.appComponent?.inject(this)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        BitcoinApp.instance.appComponent.inject(this)
         setupChart(chart)
+        viewModel = ViewModelProvider(this).get(ChartViewModel::class.java)
+        viewModel.viewState.observe(viewLifecycleOwner, Observer {
+            handleViewState(it)
+        })
         updateUI()
         swipeRefresh.setOnRefreshListener { updateUI() }
     }
 
+    private fun handleViewState(state: ChartViewState) {
+        toggleChartVisibility(visible = state !is ChartViewState.Loading)
+        when (state) {
+            is ChartViewState.Content -> showChartData(state)
+            is ChartViewState.Error -> showChartLoadingError()
+        }
+    }
+
     private fun updateUI() {
-        presenter.bindView(this)
         getRangeIndex().let {
-            presenter.onTimeSpanSelected(Range.values()[it])
+            viewModel.onTimeSpanSelected(Range.values()[it])
         }
     }
 
@@ -64,31 +80,33 @@ class ChartFragment : BaseMvpFragment<ChartContract.Presenter>(), ChartContract.
         xAxis.valueFormatter = DayValueFormatter()
     }
 
-    override fun showChartData(values: List<Value>?, range: Range) {
-        if(range == Range.ALL) {
-            chart.description.text = getString(R.string.all_available_data_description)
-        } else {
-            chart.description.text = getString(R.string.generic_chart_text, range.timeSpan)
-        }
-
-        values?.let {
-            val entries = mutableListOf<Entry>()
-            for ((index, value) in it.withIndex()) {
-                val entry = Entry(index.toFloat(), value.getYAsFloat(), R.drawable.star)
-                entries.add(entry)
+    private fun showChartData(state: ChartViewState.Content) {
+        with(state) {
+            if (range == Range.ALL) {
+                chart.description.text = getString(R.string.all_available_data_description)
+            } else {
+                chart.description.text = getString(R.string.generic_chart_text, range.timeSpan)
             }
-            ChartRenderUtil.loadChart(entries, chart)
-            swipeRefresh.isRefreshing = false
+
+            response.values?.let {
+                val entries = mutableListOf<Entry>()
+                for ((index, value) in it.withIndex()) {
+                    val entry = Entry(index.toFloat(), value.getYAsFloat(), R.drawable.star)
+                    entries.add(entry)
+                }
+                ChartRenderUtil.loadChart(entries, chart)
+                swipeRefresh.isRefreshing = false
+            }
         }
     }
 
 
-    override fun toggleChartVisibility(visible: Boolean) {
+    private fun toggleChartVisibility(visible: Boolean) {
         chart.visibility = if (visible) VISIBLE else GONE
     }
 
 
-    override fun showChartLoadingError() {
+    private fun showChartLoadingError() {
         Toast.makeText(context, R.string.error_fetching_chart, Toast.LENGTH_LONG).show()
     }
 

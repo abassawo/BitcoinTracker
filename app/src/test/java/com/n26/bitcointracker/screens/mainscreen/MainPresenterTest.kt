@@ -9,13 +9,13 @@ import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.Mockito.`when` as whenever
 
-class MainPresenterTest : BasePresenterTest<MainPresenter>() {
+class MainPresenterTest : BasePresenterTest<MainViewModel>() {
     @Mock lateinit var mockView: MainContract.View
 
     @Before
     override fun setup() {
         super.setup()
-        presenter = MainPresenter(mockSettings, appRepository)
+        presenter = MainViewModel(mockSettings, appRepository)
     }
 
     @Test

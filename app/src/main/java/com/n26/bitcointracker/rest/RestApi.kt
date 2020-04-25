@@ -6,6 +6,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface RestApi {
-    @GET("https://api.blockchain.info/charts/market-price")
+    @GET("charts/market-price")
     fun getChart(@Query("timespan") timeSpan: String): Single<ChartResponse>
 }

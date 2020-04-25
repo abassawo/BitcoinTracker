@@ -17,14 +17,14 @@ import org.mockito.Mockito.`when` as whenever
 @Rule
 @JvmField
 val immediateSchedulerRule = ImmediateSchedulerRule()
-class ChartPresenterTest : BasePresenterTest<ChartPresenter>() {
+class ChartPresenterTest : BasePresenterTest<ChartViewModel>() {
     @Mock
     lateinit var mockView: ChartContract.View
 
     @Before
     override fun setup() {
         super.setup()
-        presenter = ChartPresenter(mockSettings, appRepository)
+        presenter = ChartViewModel(mockSettings, appRepository)
         presenter.bindView(mockView)
     }
 

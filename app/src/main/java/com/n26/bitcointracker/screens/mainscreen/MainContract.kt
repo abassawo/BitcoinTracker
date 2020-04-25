@@ -10,7 +10,7 @@ interface MainContract {
         fun isNetworkAvailable(): Boolean
     }
 
-    interface Presenter : BaseContract.Presenter<View> {
+    interface Presenter {
         fun onPageSelected(index: Int)
         fun onConnectivityChecked(isNetworkAvailable: Boolean)
     }

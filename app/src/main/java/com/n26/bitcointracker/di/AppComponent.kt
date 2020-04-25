@@ -7,14 +7,11 @@ import com.n26.bitcointracker.screens.mainscreen.MainActivity
 import dagger.Component
 import javax.inject.Singleton
 
-@Component(modules = [AppModule::class])
+@Component(modules = [AppModule::class, NetworkModule::class])
 @Singleton
 interface  AppComponent {
     fun inject(mainActivity: MainActivity)
     fun inject(app: BitcoinApp)
-    fun inject(chartFragment: ChartFragment) {
-
-    }
-
+    fun inject(chartFragment: ChartFragment)
     fun inject(appRepository: AppRepository)
 }

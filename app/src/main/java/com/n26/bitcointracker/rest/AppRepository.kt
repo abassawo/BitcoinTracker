@@ -11,9 +11,10 @@ class AppRepository @Inject constructor(
     private val restApi: RestApi
 ) {
 
-    private fun <R> subscribeOnIoObserveOnUi(): SchedulerTransformer<R> {
-        return SchedulerTransformer(schedulerProvider.ioScheduler(), schedulerProvider.uiScheduler())
-    }
+    private fun <R> subscribeOnIoObserveOnUi(): SchedulerTransformer<R> =
+        SchedulerTransformer(schedulerProvider.ioScheduler(), schedulerProvider.uiScheduler())
 
-    fun getChart(range: String): Single<ChartResponse> = restApi.getChart(range).compose(subscribeOnIoObserveOnUi())
+    fun getChart(range: String): Single<ChartResponse> =
+        restApi.getChart(range)
+            .compose(subscribeOnIoObserveOnUi())
 }

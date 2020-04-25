@@ -24,48 +24,11 @@ class AppModule(private val application: BitcoinApp) {
     @Singleton
     fun provideAppContext(): Context = application
 
-    @Provides
-    @Singleton
-    fun providesGson(): Gson = GsonBuilder().create()
-
-    @Provides
-    @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
-        val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.level =
-            if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
-        return OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor)
-            .build()
-    }
-
-    @Provides
-    @Singleton
-    fun provideRetrofit(client: OkHttpClient, gson: Gson): Retrofit {
-        return Retrofit.Builder().baseUrl(BASE_URL)
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .build()
-    }
-
-    @Provides
-    @Singleton
-    fun provideRestApi(retrofit: Retrofit): RestApi = retrofit.create(RestApi::class.java)
-
 
     @Provides
     @Singleton
     fun provideUserSettingsManager(): UserSettings = UserSettingsManager(application)
 
-    @Provides
-    @Singleton
-    fun provideRepository(
-        restApi: RestApi,
-        schedulerProvider: SchedulerProvider
-    ): AppRepository {
-        return AppRepository(schedulerProvider, restApi)
-    }
 
     @Provides
     @Singleton

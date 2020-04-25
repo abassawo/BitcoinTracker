@@ -4,16 +4,16 @@ import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
 
-abstract class BaseMvpActivity<P : BaseContract.Presenter<*>> : AppCompatActivity(),
+abstract class BaseMvvmActivity<V : BaseViewModel> : AppCompatActivity(),
     BaseContract.View {
 
-    private lateinit var presenter: P
+    lateinit var viewModel: V
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getLayoutResource())
         onViewCreated(savedInstanceState)
-        presenter = getPresenter()
+        viewModel = createViewModel()
     }
 
     /**
@@ -23,18 +23,7 @@ abstract class BaseMvpActivity<P : BaseContract.Presenter<*>> : AppCompatActivit
 
     }
 
-    abstract fun getPresenter(): P
+    abstract fun createViewModel(): V
 
     abstract fun getLayoutResource(): Int
-
-    @CallSuper
-    public override fun onStop() {
-        super.onStop()
-        presenter.unbindView()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.onViewDestroyed()
-    }
 }
