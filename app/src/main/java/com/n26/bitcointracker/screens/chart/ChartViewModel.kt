@@ -20,23 +20,20 @@ class ChartViewModel : BaseViewModel() {
     }
 
     fun onTimeSpanSelected(range: Range) {
-        disposables.clear()
-        viewState.postValue(ChartViewState.Loading)
-        fetchData(range)
-    }
-
-    private fun fetchData(range: Range) {
-        runBlocking {
+        fun fetchData(range: Range) = runBlocking {
             try {
                 getData(range)
             } catch (e: Exception) {
                 showError(e)
             }
         }
+
+        viewState.postValue(ChartViewState.Loading)
+        fetchData(range)
     }
 
     private suspend fun getData(range: Range) {
-        val chartResponse = appRepository.getChartBlocking(range.getTimeSpanQueryText())
+        val chartResponse = appRepository.getChart(range.getTimeSpanQueryText())
         showResponse(chartResponse, range)
     }
 

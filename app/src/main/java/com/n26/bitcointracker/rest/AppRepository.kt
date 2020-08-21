@@ -5,6 +5,6 @@ import javax.inject.Inject
 
 class AppRepository @Inject constructor(private val restApi: RestApi) {
 
-    suspend fun getChartBlocking(range: String): ChartResponse =
+    suspend fun getChart(range: String): ChartResponse =
         restApi.getChartBlocking(range)
 }
