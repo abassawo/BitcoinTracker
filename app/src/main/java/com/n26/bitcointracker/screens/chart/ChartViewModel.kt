@@ -2,17 +2,17 @@ package com.n26.bitcointracker.screens.chart
 
 import androidx.lifecycle.MutableLiveData
 import com.n26.bitcointracker.base.BaseViewModel
-import com.n26.bitcointracker.di.AppSchedulerProvider
 import com.n26.bitcointracker.models.ChartResponse
 import com.n26.bitcointracker.models.Range
 import com.n26.bitcointracker.models.getTimeSpanQueryText
 import com.n26.bitcointracker.rest.AppRepository
 import com.n26.bitcointracker.rest.RetrofitClient
+import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 
 class ChartViewModel : BaseViewModel() {
 
-    private val appRepository = AppRepository(AppSchedulerProvider(), RetrofitClient.getService())
+    private val appRepository = AppRepository(RetrofitClient.getService())
     val viewState: MutableLiveData<ChartViewState> = MutableLiveData()
 
     init {
@@ -22,13 +22,22 @@ class ChartViewModel : BaseViewModel() {
     fun onTimeSpanSelected(range: Range) {
         disposables.clear()
         viewState.postValue(ChartViewState.Loading)
+        fetchData(range)
+    }
 
-        val disposable = appRepository.getChart(range.getTimeSpanQueryText())
-            .subscribe(
-                { response -> showResponse(response, range) },
-                { e -> showError(e) })
+    private fun fetchData(range: Range) {
+        runBlocking {
+            try {
+                getData(range)
+            } catch (e: Exception) {
+                showError(e)
+            }
+        }
+    }
 
-        disposables.add(disposable)
+    private suspend fun getData(range: Range) {
+        val chartResponse = appRepository.getChartBlocking(range.getTimeSpanQueryText())
+        showResponse(chartResponse, range)
     }
 
     private fun showResponse(response: ChartResponse?, range: Range) =

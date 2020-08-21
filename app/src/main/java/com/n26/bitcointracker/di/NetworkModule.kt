@@ -50,9 +50,6 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRepository(
-        restApi: RestApi,
-        schedulerProvider: SchedulerProvider
-    ): AppRepository = AppRepository(schedulerProvider, restApi)
+    fun provideRepository(restApi: RestApi): AppRepository = AppRepository(restApi)
 }
 

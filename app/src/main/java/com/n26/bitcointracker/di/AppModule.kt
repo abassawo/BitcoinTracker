@@ -29,11 +29,6 @@ class AppModule(private val application: BitcoinApp) {
     @Singleton
     fun provideUserSettingsManager(): UserSettings = UserSettingsManager(application)
 
-
-    @Provides
-    @Singleton
-    fun provideSchedulerProvider(): SchedulerProvider = AppSchedulerProvider()
-
     companion object {
         const val BASE_URL = "https://api.blockchain.info/"
     }
