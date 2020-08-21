@@ -31,7 +31,7 @@ enum class Range(val timeSpan: String, @StringRes val shortLabel: Int) {
 }
 
 //Extension function used to support valid queries - ex: 30 days -> 30days
-fun Range.getTimeSpanQueryText() : String =
+fun Range.timeSpanQueryText() : String =
     timeSpan
         .replace(" ", "")
         .trim()

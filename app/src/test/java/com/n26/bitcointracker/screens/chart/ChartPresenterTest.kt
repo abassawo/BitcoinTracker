@@ -4,7 +4,7 @@ import com.n26.bitcointracker.BasePresenterTest
 import com.n26.bitcointracker.models.ChartResponse
 import com.n26.bitcointracker.models.Range
 import com.n26.bitcointracker.models.Value
-import com.n26.bitcointracker.models.getTimeSpanQueryText
+import com.n26.bitcointracker.models.timeSpanQueryText
 import com.n26.bitcointracker.testutil.ImmediateSchedulerRule
 import io.reactivex.Single
 import org.junit.Before
@@ -35,7 +35,7 @@ class ChartPresenterTest : BasePresenterTest<ChartViewModel>() {
         chartResponse.values = listOf(Value())
         val single = Single.create<ChartResponse>{emitter
             -> emitter.onSuccess(chartResponse)}
-        whenever(mockRestApi.getChart(Range.ALL.getTimeSpanQueryText())).thenReturn(single)
+        whenever(mockRestApi.getChart(Range.ALL.timeSpanQueryText())).thenReturn(single)
 
         //Act
         presenter.onTimeSpanSelected(Range.ALL)
@@ -53,7 +53,7 @@ class ChartPresenterTest : BasePresenterTest<ChartViewModel>() {
                 emitter ->
             emitter.onError(Exception(error))
         }
-        whenever(mockRestApi.getChart(Range.ALL.getTimeSpanQueryText())).thenReturn(single)
+        whenever(mockRestApi.getChart(Range.ALL.timeSpanQueryText())).thenReturn(single)
 
         //Act
         presenter.onTimeSpanSelected(Range.ALL)
