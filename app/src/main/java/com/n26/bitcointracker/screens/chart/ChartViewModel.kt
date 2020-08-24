@@ -4,9 +4,12 @@ import androidx.lifecycle.MutableLiveData
 import com.n26.bitcointracker.base.BaseViewModel
 import com.n26.bitcointracker.models.ChartResponse
 import com.n26.bitcointracker.models.Range
-import com.n26.bitcointracker.models.getTimeSpanQueryText
+import com.n26.bitcointracker.models.timeSpanQueryText
 import com.n26.bitcointracker.rest.AppRepository
 import com.n26.bitcointracker.rest.RetrofitClient
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 
@@ -20,22 +23,15 @@ class ChartViewModel : BaseViewModel() {
     }
 
     fun onTimeSpanSelected(range: Range) {
-        fun fetchData(range: Range) = runBlocking {
-            try {
-                getData(range)
-            } catch (e: Exception) {
-                showError(e)
-            }
-        }
-
         viewState.postValue(ChartViewState.Loading)
-        fetchData(range)
+        runBlocking { getData(range) }
     }
 
-    private suspend fun getData(range: Range) {
-        val chartResponse = appRepository.getChart(range.getTimeSpanQueryText())
-        showResponse(chartResponse, range)
-    }
+    @ExperimentalCoroutinesApi
+    private suspend fun getData(range: Range) =
+        appRepository.getChart(range.timeSpanQueryText())
+            .catch { showError(it) }
+            .collect { showResponse(it, range) }
 
     private fun showResponse(response: ChartResponse?, range: Range) =
         response?.let {
