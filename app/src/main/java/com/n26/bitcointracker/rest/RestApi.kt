@@ -13,7 +13,7 @@ import retrofit2.http.Query
 interface RestApi {
 
     @GET("charts/market-price")
-    suspend fun getChartBlocking(@Query("timespan") timeSpan: String): ChartResponse
+    suspend fun getChart(@Query("timespan") timeSpan: String): ChartResponse
 }
 
 

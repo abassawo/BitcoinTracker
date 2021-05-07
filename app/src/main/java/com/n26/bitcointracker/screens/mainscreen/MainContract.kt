@@ -9,9 +9,4 @@ interface MainContract {
         fun showChartPage(rangeIndex: Int)
         fun isNetworkAvailable(): Boolean
     }
-
-    interface Presenter {
-        fun onPageSelected(index: Int)
-        fun onConnectivityChecked(isNetworkAvailable: Boolean)
-    }
 }

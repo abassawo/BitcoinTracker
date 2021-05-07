@@ -46,21 +46,20 @@ class ChartFragment : Fragment() {
 
     private fun handleViewState(state: ChartViewState) {
         toggleChartVisibility(visible = state !is ChartViewState.Loading)
+
         when (state) {
             is ChartViewState.Content -> showChartData(state)
             is ChartViewState.Error -> showChartLoadingError()
+            ChartViewState.Loading -> Unit // no-op, already handled
         }
     }
 
     private fun updateUI() {
-        getRangeIndex().let {
-            viewModel.onTimeSpanSelected(Range.values()[it])
-        }
+        val index = getRangeIndex()
+        viewModel.onTimeSpanSelected(Range.values()[index])
     }
 
-    private fun getRangeIndex(): Int {
-        return arguments?.getInt(ARG_RANGE_KEY, 0) ?: 0
-    }
+    private fun getRangeIndex(): Int = arguments?.getInt(ARG_RANGE_KEY, 0) ?: 0
 
     private fun setupChart(chart: LineChart) {
         chart.setTouchEnabled(true)
@@ -82,11 +81,7 @@ class ChartFragment : Fragment() {
 
     private fun showChartData(state: ChartViewState.Content) {
         with(state) {
-            if (range == Range.ALL) {
-                chart.description.text = getString(R.string.all_available_data_description)
-            } else {
-                chart.description.text = getString(R.string.generic_chart_text, range.timeSpan)
-            }
+            chart.description.text = getString(R.string.all_available_data_description)
 
             response.values?.let {
                 val entries = mutableListOf<Entry>()
@@ -100,15 +95,12 @@ class ChartFragment : Fragment() {
         }
     }
 
-
     private fun toggleChartVisibility(visible: Boolean) {
         chart.visibility = if (visible) VISIBLE else GONE
     }
 
-
-    private fun showChartLoadingError() {
+    private fun showChartLoadingError() =
         Toast.makeText(context, R.string.error_fetching_chart, Toast.LENGTH_LONG).show()
-    }
 
     companion object {
         private const val ARG_RANGE_KEY = "argRange"

@@ -19,13 +19,11 @@ class ChartMarkerView(context: Context) : MarkerView(context, android.R.layout.s
     // callbacks every time the MarkerView is redrawn, can be used to update the
     // content (user-interface)
     override fun refreshContent(e: Entry, highlight: Highlight) {
-
         tvContent.text = """${e.y}"""
         super.refreshContent(e, highlight)
     }
 
     override fun getOffset(): MPPointF {
-
         if (mOffset == null) {
             // center the marker horizontally and vertically
             mOffset = MPPointF((-(width / 2)).toFloat(), (-height).toFloat())

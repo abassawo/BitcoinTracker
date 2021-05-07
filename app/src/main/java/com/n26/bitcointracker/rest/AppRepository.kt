@@ -8,8 +8,6 @@ import javax.inject.Inject
 
 class AppRepository @Inject constructor(private val restApi: RestApi) {
 
-    suspend fun getChart(range: String): Flow<ChartResponse> =
-        flow {
-            emit(restApi.getChartBlocking(range))
-        }
+    suspend fun getChart(range: String): ChartResponse =
+        restApi.getChart(range)
 }

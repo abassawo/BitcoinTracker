@@ -16,7 +16,6 @@ The project contains the following components:
 -   Android Design Library
 -   MPAndroidChart for displaying charts
 -   Commonly used third party dependencies (RxJava, retrofit, etc))
--   Base MVP framework
 -   Other setups to support performance and dependency injection (dagger, custom Application, Timber, etc)
 
 ## Cloning the project
@@ -34,7 +33,7 @@ Unit tests exist under the "test" directory.
 
 ## Architecture
 ### Model-View-Presenter
-The app uses the popular MVP architecture to allow for separation of logic and ease of testing. In this paradigm, all business logic should live inside presenters (but they can delegate some tasks to other classes that are injected as dependencies). Activities and fragment will act as "views", they should not have any logic other than passing the user events to the presenter and displaying the data. There are also Contract classes that specify the communication interface between the views and presenters.  
+The app uses the popular MVVM architecture to allow for separation of logic and ease of testing. In this paradigm, all business logic should live inside presenters (but they can delegate some tasks to other classes that are injected as dependencies). Activities and fragment will act as "views", they should not have any logic other than passing the user events to the presenter and displaying the data. There are also Contract classes that specify the communication interface between the views and presenters.
 
 ### Base Classes
 - `BaseMvpActivity`: Base class for activities. Includes setup for interactions with presenter.
